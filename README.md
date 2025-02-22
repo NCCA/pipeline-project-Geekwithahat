@@ -4,8 +4,18 @@ __**Project Ideas:**__
 
 - Maya Large Scene Procedure Tool
 
-Creating a tool within Maya for reformatting large scenes including renaming, grouping and mass applying tools and procedures. Works with both the pre-existing editor, extends it to allow for quick access to certain functions, and can allow for the use of shelf tools.
+Creating a tool within Maya for reformatting large scenes that have become difficult to manage without computational solutions, including renaming, grouping and mass-applying tools and procedures. Works with both the pre-existing editor, extends it to allow for quick access to certain functions, and can allow for the use of shelf tools. Focusing more on a scene with several objects that may need to be altered similarly.
 
-- Sample Scene code generator
+__**Possible functions**__
 
-Installs libraries and languages necesary for creating various basic scenes in a variety of different tools, without the need for user involvement.
+- Mass renaming
+
+- Mass parenting
+
+- Mass layer movement
+
+- Geometric function (i.e extrusion) on one object cascading to others
+
+- Possible mass attribute editing
+
+- Possible organisational functions for complex scenes
