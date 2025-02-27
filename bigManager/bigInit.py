@@ -12,5 +12,6 @@ def uninitializePlugin(self):
 if __name__ == "__main__":
     main()
 
-
-print("debugging big init")
+def debug() -> int:
+    print("debugging big init")
+    return 1
