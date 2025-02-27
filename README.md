@@ -19,3 +19,8 @@ __**Possible functions**__
 - Possible mass attribute editing
 
 - Possible organisational functions for complex scenes
+
+
+__**Current Functionality**__
+
+Basic bash scripts created in order to push and pull the current Maya Plugin back and forth from the location of the git repository and the current plugin path. 
