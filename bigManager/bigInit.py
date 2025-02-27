@@ -1,8 +1,12 @@
 def main():
     print("Hello from bigmanager!")
 
-def initializePlugin():
-    print("kindly stop complaining....")
+def initializePlugin(self):
+    print("Initializing..... kindly stop complaining....")
+
+def uninitializePlugin(self):
+    print("Turning off..... kindly stop complaining.....")
+
 
 
 if __name__ == "__main__":
