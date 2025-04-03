@@ -31,3 +31,4 @@ __TO DO LIST:__
 - Convert to an actual Maya module
 
 - Mass renaming of long names
+    - Take path, if given a name that is non-repeated, replace the last primitives with numbered versions of the found name.
