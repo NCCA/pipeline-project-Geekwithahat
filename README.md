@@ -8,9 +8,9 @@ Creating a tool within Maya for reformatting large scenes that have become diffi
 
 __**Possible functions**__
 
-- Mass renaming (edit specifically long names to be unique, required due to previous export problems)
+- Mass renaming (edit specifically long names to be unique, required due to previous export problems) /
 
-- Mass parenting (used for organisational purposes)
+- Mass parenting (used for organisational purposes) .5 (groups)
 
 - Mass layer movement (^^^)
 
@@ -19,16 +19,3 @@ __**Possible functions**__
 - Possible mass attribute editing and cascading attribute changes
 
 - Possible organisational functions for complex scenes beyond this (i.e management ui)
-
-
-__**Current Functionality**__
-
-Basic bash scripts created in order to push and pull the current Maya Plugin back and forth from the location of the git repository and the current plugin path. 
-
-
-__TO DO LIST:__
-
-- Convert to an actual Maya module
-
-- Mass renaming of long names
-    - Take path, if given a name that is non-repeated, replace the last primitives with numbered versions of the found name.
