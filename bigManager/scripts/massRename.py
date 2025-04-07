@@ -1,5 +1,5 @@
 import re
-
+import * from maya as cmds
 
 def massRename(name) -> None :
     cmds.select(name, hierarchy = True)
@@ -27,7 +27,13 @@ def massRename(name) -> None :
 def createFolder(folderName) -> None :
     cmds.group(n=folderName)
     massRename(folderName)
+
+def find(regEx, folderName) -> None :
+    x = cmds.ls(geometry=True) 
+    cmds.group(x, n="TEST")
+
+    createFolder(folderName)     
    
 
-createFolder("A")
+#createFolder("A")
     

@@ -42,6 +42,8 @@ def install_module(location, os):
             file.write(f"PYTHONPATH += {current_dir}/{PYTHON_PATHS}\n")
             # Going to set some test ENVARS
             file.write(f"BIGMAN_PATH = {current_dir}\n")
+    else : 
+        print("ERROR MODULE FILE NOT FOUND")
 
 
 def check_maya_installed(op_sys):
