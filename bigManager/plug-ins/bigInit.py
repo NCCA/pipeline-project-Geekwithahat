@@ -20,6 +20,7 @@
 
 import maya.api.OpenMaya as om
 import maya.cmds as cmds
+import re
 
 '''
 def maya_useNewAPI():
@@ -34,7 +35,43 @@ maya_useNewAPI = True
 
 
 class BigMaya(om.MPxCommand):
-    CMD_NAME = "BigMayaPy"
+    CMD_NAME = "BigMaya"
+
+    def massRename(name) -> None :
+        cmds.select(name, hierarchy = True)
+        selected = cmds.ls(selection=True)
+        
+        assetName = selected[0]
+        
+        replace = {}
+        
+        for c in selected :
+            cN = re.findall("[A-Z, a-z 0-9, ^|_]*[a-z, A-Z]", c)[0]
+            if (cN == assetName) | ("|" in cN) | (re.search(".*Shape", cN) != None) | (c in replace):
+                continue
+            replace[c] = assetName + "_" + cN
+        
+        
+        for rn in selected : 
+            if (rn == assetName) | ('|' in rn) | ("Shape" in rn) | (assetName in rn):
+                continue
+            print(rn)
+            cmds.select(rn)
+            cmds.rename(replace[rn])
+        
+    def defaultButtonPush(*args):
+        print ('Button 1 was pushed.')
+
+
+
+    def createFolder(folderName) -> None :
+        cmds.group(n=folderName)
+        massRename(folderName)
+
+    def find(regEx, folderName) -> None :
+        x = cmds.ls(geometry=True) 
+        cmds.group(x, n="TEST")
+        createFolder(folderName) 
 
     def __init__(self):
         super(BigMaya, self).__init__()
@@ -48,12 +85,34 @@ class BigMaya(om.MPxCommand):
         om.MGlobal.displayError("BIG ERROR")
         om.MGlobal.displayInfo("BIG INFO")
 
+        cmds.window( width=150 )
+        cmds.columnLayout( adjustableColumn=True )
+        cmds.button( label='Button 1', command=defaultButtonPush )
+        cmds.showWindow()
+
     @classmethod
     def creator(cls):
         """
         Think of this as a factory
         """
         return BigMaya()
+
+class TestButton(om.MPxCommand) :
+    CMD_NAME = "TestButton"
+
+    def __init__(self):
+        super(TestButton, self).__init__()
+
+    def doIt(self, args) :
+        print("do it test")
+    
+    @classmethod
+    def creator(cls):
+        return TestButton()
+    
+    
+
+    
 
 
 def initializePlugin(plugin):

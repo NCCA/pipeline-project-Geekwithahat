@@ -1,0 +1,9 @@
+README.md
+pyproject.toml
+bigmanager.egg-info/PKG-INFO
+bigmanager.egg-info/SOURCES.txt
+bigmanager.egg-info/dependency_links.txt
+bigmanager.egg-info/requires.txt
+bigmanager.egg-info/top_level.txt
+oldScript/pull.py
+oldScript/push.py

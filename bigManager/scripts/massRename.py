@@ -1,5 +1,8 @@
+#import maya.standalone
+#maya.standalone.initialize(name="python")
+
 import re
-import * from maya as cmds
+import maya.cmds as cmds
 
 def massRename(name) -> None :
     cmds.select(name, hierarchy = True)
@@ -19,7 +22,6 @@ def massRename(name) -> None :
     for rn in selected : 
         if (rn == assetName) | ('|' in rn) | ("Shape" in rn) | (assetName in rn):
             continue
-        print(rn)
         cmds.select(rn)
         cmds.rename(replace[rn])
 
@@ -29,8 +31,9 @@ def createFolder(folderName) -> None :
     massRename(folderName)
 
 def find(regEx, folderName) -> None :
-    x = cmds.ls(geometry=True) 
-    cmds.group(x, n="TEST")
+    for i in cmds.ls(typ="transform") :
+        if(re.findall(regEx, i) != []):
+            cmds.select(i, add=True)
 
     createFolder(folderName)     
    
