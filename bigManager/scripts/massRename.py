@@ -35,8 +35,15 @@ def find(regEx, folderName) -> None :
         if(re.findall(regEx, i) != []):
             cmds.select(i, add=True)
 
-    createFolder(folderName)     
+    createFolder(folderName) 
+
+def shiftLayer(regEx, layerName) -> None :
+    for i in cmds.ls(typ="transform") :
+        if(re.findall(regEx, i) != []):
+            cmds.select(i, add=True)
+    cmds.createDisplayLayer(name=layerName)
+
+         
    
 
-#createFolder("A")
     

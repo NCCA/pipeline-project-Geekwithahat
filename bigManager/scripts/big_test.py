@@ -10,6 +10,7 @@ def runAll():
     test_massRename()
     test_createFolder()
     test_regex()
+    test_layerShift()
 
 
 def test_pytest():
@@ -50,9 +51,20 @@ def test_regex():
     cmds.sphere(name = "A2")
     cmds.sphere(name = "A3")
     massRename.find("A", "F")
-    O = cmds.ls("F","F_A1","F_A2", "F_A3")
-    assert O == ['F', 'F_A1', 'F_A2', 'F_A3']
+    O = cmds.ls("F","F_A","F_A1", "F_A2")
+    assert O == ['F', 'F_A', 'F_A1', 'F_A2']
     cmds.delete("F")
+
+def test_layerShift():
+    print("--TESTING LAYER MOVEMENT--")
+    cmds.sphere(name = "A1")
+    cmds.sphere(name = "A2")
+    cmds.sphere(name = "A3")
+    massRename.shiftLayer("A","TEST")
+    assert ['A1Shape', 'A1', 'A2', 'A2Shape', 'A3', 'A3Shape'] == cmds.editDisplayLayerMembers( "TEST", query=True )    
+    cmds.delete("TEST")
+    cmds.delete("A1", "A2", "A3")
+
 
 
 
