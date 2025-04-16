@@ -24,5 +24,8 @@ __**Possible functions**__
 __**Cascading Protocols**__
 
 - Full history stream save
+    -   Difficult to gain acceptable instructions post full save of history
+    -   Functions for marking acceptable instructions more tedious than simply giving the plugin code
 - C++ conversion for history save without an external file
+    - still requires some form of saving in order to convert from one to another.
 
