@@ -12,7 +12,7 @@ __**Possible functions**__
 
 - Mass parenting (used for organisational purposes) .5 (groups)
 
-- Mass layer movement (^^^)
+- Mass layer movement (^^^) /
 
 - Geometric function (i.e extrusion) on one object cascading to others
 
