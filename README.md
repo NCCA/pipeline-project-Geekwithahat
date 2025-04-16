@@ -18,4 +18,11 @@ __**Possible functions**__
 
 - Possible mass attribute editing and cascading attribute changes
 
-- Possible organisational functions for complex scenes beyond this (i.e management ui)
+- Possible organisational functions for complex scenes beyond this (i.e management ui
+
+
+__**Cascading Protocols**__
+
+- Full history stream save
+- C++ conversion for history save without an external file
+
