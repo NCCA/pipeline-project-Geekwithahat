@@ -12,10 +12,20 @@ __**Possible functions**__
 
 - Mass parenting (used for organisational purposes) .5 (groups)
 
-- Mass layer movement (^^^)
+- Mass layer movement (^^^) /
 
 - Geometric function (i.e extrusion) on one object cascading to others
 
 - Possible mass attribute editing and cascading attribute changes
 
-- Possible organisational functions for complex scenes beyond this (i.e management ui)
+- Possible organisational functions for complex scenes beyond this (i.e management ui
+
+
+__**Cascading Protocols**__
+
+- Full history stream save
+    -   Difficult to gain acceptable instructions post full save of history
+    -   Functions for marking acceptable instructions more tedious than simply giving the plugin code
+- C++ conversion for history save without an external file
+    - still requires some form of saving in order to convert from one to another.
+
