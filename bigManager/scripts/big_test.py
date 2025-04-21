@@ -2,6 +2,7 @@
 import massRename
 import procedureCascade
 import maya.cmds as cmds
+import re
 #import maya.standalone
 #maya.standalone.initialize(name="python")
 
@@ -84,10 +85,11 @@ def test_Cascade():
     cmds.sphere(name = "B")
     cmds.select("A","B")
     massRename.createFolder("F")
-    O = cmds.ls("F","F_A","F_B", "F_C") 
-    massRename.createFolder("F")
     procedureCascade.cascadeFunctions("F", "cmds.rename('test')")
+    cmds.select("F", "test", "test1")
+    O = cmds.ls(sl=True)
     assert O == ['F', 'test', 'test1']
+    cmds.delete("F")
 
 
 
