@@ -21,6 +21,7 @@ def deleteFunctions() :
     os.remove("stream.txt")
 
 def cascadeFunctions(Folder, Code) :
+    Folder = "^"+Folder+"_.*"
     for i in cmds.ls(typ="transform") :
         if(re.findall(Folder, i) != []):
             cmds.select(i, add=True)
