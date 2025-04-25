@@ -7,14 +7,24 @@ import procedureCascade
 folderName = "none"
 
 def createFolder(*args):
-    folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
-    regex = cmds.textFieldGrp(regexF_FieldGrpVar, q=1, text=1)
-    massRename.find(regex, folderName)
+    if(cmds.checkBox(reorgCheck, q=1, v=True)):
+        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
+        regex = cmds.textFieldGrp(regexF_FieldGrpVar, q=1, text=1)
+        massRename.findOpen(regex, folderName)
+    else: 
+        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
+        regex = cmds.textFieldGrp(regexF_FieldGrpVar, q=1, text=1)
+        massRename.find(regex, folderName)
 
 def createFolderCondition(*args):
-    folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
-    condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1)
-    massRename.conditionalFolder(condition, folderName)
+    if(cmds.checkBox(reorgCheck, q=1, v=True)):
+        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
+        condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1)
+        massRename.conditionalFolderOpen(condition, folderName)
+    else:
+        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
+        condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1)
+        massRename.conditionalFolder(condition, folderName)
 
 def createLayer(*args):
     layerName = cmds.textFieldGrp(layerFieldGrpVar, q=1, text=1)
@@ -40,6 +50,7 @@ def reRun(*args):
     regexF_FieldGrpVar = cmds.textFieldGrp()
     cmds.text(label='Condition')
     conditionFieldGrpVar = cmds.textFieldGrp()
+    reorgCheck = cmds.checkBox(label="Reorder")
     cmds.button( label='Create Folder', command=createFolder )
 
     cmds.text( label='Layer Name' )
@@ -68,6 +79,7 @@ cmds.text(label='Search')
 regexF_FieldGrpVar = cmds.textFieldGrp()
 cmds.text(label='Condition')
 conditionFieldGrpVar = cmds.textFieldGrp()
+reorgCheck = cmds.checkBox(label="Reorder")
 cmds.button( label='Create Folder', command=createFolder )
 
 cmds.text( label='Layer Name' )

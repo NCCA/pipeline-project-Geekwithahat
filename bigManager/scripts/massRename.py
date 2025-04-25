@@ -37,6 +37,14 @@ def find(regEx, folderName) -> None :
 
     createFolder(folderName) 
 
+def findOpen(regEx, folderName) -> None :
+    for i in cmds.ls(typ="transform") :
+        if(re.findall(regEx, i) != []):
+            cmds.Unparent()
+            cmds.select(i, add=True)
+
+    createFolder(folderName) 
+
 def shiftLayer(regEx, layerName) -> None :
     for i in cmds.ls(typ="transform") :
         if(re.findall(regEx, i) != []):
@@ -48,6 +56,12 @@ def conditionalFolder(condition, folderName) :
         if(eval(condition)):
             cmds.select(X, add=True)
     createFolder(folderName) 
-   
+
+def conditionalFolderOpen(condition, folderName) :
+    for X in cmds.ls(typ="transform") :
+        if(eval(condition)):
+            cmds.Unparent()
+            cmds.select(X, add=True)
+    createFolder(folderName) 
 
     
