@@ -91,6 +91,16 @@ def test_Cascade():
     assert O == ['F', 'test', 'test1']
     cmds.delete("F")
 
+def test_RepeatLast():
+    print("--TESTING REPEAT FUNCTION--")
+    cmds.sphere(name = "A")
+    cmds.select("A")
+    massRename.createFolder("F")
+    procedureCascade.repeatLast("F")
+    cmds.select("F", "A","A1")
+    O = cmds.ls(sl=True)
+    assert O == ['F', 'A', 'A1']
+    cmds.delete("F")
 
 
 

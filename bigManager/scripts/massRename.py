@@ -43,7 +43,11 @@ def shiftLayer(regEx, layerName) -> None :
             cmds.select(i, add=True)
     cmds.createDisplayLayer(name=layerName)
 
-         
+def conditionalFolder(condition, folderName) :
+    for X in cmds.ls(typ="transform") :
+        if(eval(condition)):
+            cmds.select(X, add=True)
+    createFolder(folderName) 
    
 
     

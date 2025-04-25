@@ -1,6 +1,7 @@
 import maya.cmds as cmds
 import os
 import re
+import maya.mel as mel 
 
 
 def createFunctionOut():
@@ -21,15 +22,26 @@ def deleteFunctions() :
     os.remove("stream.txt")
 
 def cascadeFunctions(Folder, Code) :
-    Folder = "^"+Folder+"_.*"
+    Reg = "^"+Folder+"_.*"
     for i in cmds.ls(typ="transform") :
-        if(re.findall(Folder, i) != []):
+        if(re.findall(Reg, i) != []):
             cmds.select(i, add=True)
-    cmds.select(Folder,d=True)
     x = cmds.ls(sl=True, typ="transform")
 
 
     for object in x :
         cmds.select(object)
         exec(Code)
+
+def repeatLast(Folder) :
+    Reg = "^"+Folder+"_.*"
+    for i in cmds.ls(typ="transform") :
+        if(re.findall(Reg, i) != []):
+            cmds.select(i, add=True)
+    x = cmds.ls(sl=True, typ="transform")
+
+
+    for object in x :
+        cmds.select(object)
+        mel.eval("RepeatLast")        
     
