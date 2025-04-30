@@ -71,29 +71,66 @@ def reRun(*args):
 
 
 cmds.window("Big Manager")
-cmds.columnLayout()
+cmds.columnLayout(adjustableColumn=True )
 
+cmds.text(label="Folder Management", align='right', font='boldLabelFont')
 cmds.text( label='Folder Name' )
 folderFieldGrpVar = cmds.textFieldGrp()
 cmds.text(label='Search')
 regexF_FieldGrpVar = cmds.textFieldGrp()
 cmds.text(label='Condition')
 conditionFieldGrpVar = cmds.textFieldGrp()
+cmds.frameLayout(label="Section 1", collapsable=True, collapse=False, borderStyle='etchedOut')
 reorgCheck = cmds.checkBox(label="Reorder")
 cmds.button( label='Create Folder', command=createFolder )
 
+cmds.text(label="Layer Management", align='right', font='boldLabelFont')
 cmds.text( label='Layer Name' )
 layerFieldGrpVar = cmds.textFieldGrp()
 cmds.text(label='Search')
 regexL_FieldGrpVar = cmds.textFieldGrp()
 cmds.button( label='Create Layer', command=createLayer )
 
+cmds.text(label="Function Cascade", align='right', font='boldLabelFont')
 cmds.text( label='Folder Name' )
 ElementsFieldGrpVar = cmds.textFieldGrp()
 cmds.text(label='Code')
 code_FieldGrpVar = cmds.textFieldGrp()
 cmds.button( label='Execute', command=cascadeAttributes )
 cmds.button( label='Repeat Last', command=repeatLast)
+
+
 cmds.showWindow()
 
 
+
+# def Test(*args) :
+#     attributesCondition[attributesText[args]] = cmds.textFieldGrp(attributesText[args], q=1, text=1)
+
+# cmds.window("Big Manager")
+# cmds.columnLayout(adjustableColumn=True )
+# cmds.frameLayout(label="Section 2", collapsable=True, collapse=True, borderStyle='etchedOut')
+
+# attributesText = {}
+# attributesCondition = {}
+
+# C = []
+
+
+# for I in cmds.ls(sl=True) :
+#     cmds.select(I)
+#     A = cmds.listAttr(I, write=True)
+#     print(I)
+#     if C == [] :
+#         C = A
+#     else :
+#         for x in C :
+#             for y in A :
+#                 if x == y :
+#                     C += [x]
+
+# for i in C :
+#     cmds.text(label=i)
+#     attributesText[i] = cmds.textFieldGrp(cc=Test(i))
+
+# cmds.showWindow()
