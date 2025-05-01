@@ -31,3 +31,9 @@ __**Cascading Protocols**__
 - C++ conversion for history save without an external file
     - still requires some form of saving in order to convert from one to another.
 - Ability to provide code to run on all aspects of a folder
+
+__**To Do:**__
+
+- Consider full module implementation ("cmds or just a module")
+
+- Continue attribute detection, check for current issues after second run. 
