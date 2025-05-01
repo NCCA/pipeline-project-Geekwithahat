@@ -34,6 +34,11 @@ __**Cascading Protocols**__
 
 __**To Do:**__
 
-- Consider full module implementation ("cmds or just a module")
+- Consider full module implementation ("cmds or just a module
+    - Currently implemented as module, boots on start-up before? the rest of maya, need to debug
 
-- Continue attribute detection, check for current issues after second run. 
+- Continue attribute detection
+      - "second run issue"
+      -  attributes detected, need to update display
+  
+- odd catastrophic (kills maya) bug if folder looks for e1 
