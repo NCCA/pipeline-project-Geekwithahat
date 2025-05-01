@@ -10,21 +10,19 @@ def createFolder(*args):
     if(cmds.checkBox(reorgCheck, q=1, v=True)):
         folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
         regex = cmds.textFieldGrp(regexF_FieldGrpVar, q=1, text=1)
-        massRename.findOpen(regex, folderName)
+        condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1)
+        if condition != "" : 
+            massRename.conditionalFolderOpen(condition, folderName)
+        else:
+            massRename.findOpen(regex, folderName)
     else: 
         folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
         regex = cmds.textFieldGrp(regexF_FieldGrpVar, q=1, text=1)
-        massRename.find(regex, folderName)
-
-def createFolderCondition(*args):
-    if(cmds.checkBox(reorgCheck, q=1, v=True)):
-        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
         condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1)
-        massRename.conditionalFolderOpen(condition, folderName)
-    else:
-        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
-        condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1)
-        massRename.conditionalFolder(condition, folderName)
+        if condition != "" : 
+            massRename.conditionalFolder(condition, folderName)
+        else:
+            massRename.find(regex, folderName)
 
 def createLayer(*args):
     layerName = cmds.textFieldGrp(layerFieldGrpVar, q=1, text=1)
@@ -80,7 +78,7 @@ cmds.text(label='Search')
 regexF_FieldGrpVar = cmds.textFieldGrp()
 cmds.text(label='Condition')
 conditionFieldGrpVar = cmds.textFieldGrp()
-cmds.frameLayout(label="Section 1", collapsable=True, collapse=False, borderStyle='etchedOut')
+#cmds.frameLayout(label="Section 1", collapsable=True, collapse=False, borderStyle='etchedOut')
 reorgCheck = cmds.checkBox(label="Reorder")
 cmds.button( label='Create Folder', command=createFolder )
 
