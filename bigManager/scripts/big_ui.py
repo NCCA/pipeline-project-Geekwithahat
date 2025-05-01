@@ -6,6 +6,26 @@ import procedureCascade
 
 folderName = "none"
 
+attributesText = {}
+attributesCondition = {}
+C = []
+
+
+def updateSelectedAttributes(*args):
+    global C
+    for I in cmds.ls(sl=True) :
+        cmds.select(I)
+        A = cmds.listAttr(I, write=True)
+        print(I)
+        if C == [] :
+            C = A
+        else :
+            for x in C :
+                for y in A :
+                    if x == y :
+                        C += [x]
+
+
 def createFolder(*args):
     if(cmds.checkBox(reorgCheck, q=1, v=True)):
         folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
@@ -23,6 +43,8 @@ def createFolder(*args):
             massRename.conditionalFolder(condition, folderName)
         else:
             massRename.find(regex, folderName)
+    
+    updateSelectedAttributes()
 
 def createLayer(*args):
     layerName = cmds.textFieldGrp(layerFieldGrpVar, q=1, text=1)
@@ -76,9 +98,25 @@ cmds.text( label='Folder Name' )
 folderFieldGrpVar = cmds.textFieldGrp()
 cmds.text(label='Search')
 regexF_FieldGrpVar = cmds.textFieldGrp()
-cmds.text(label='Condition')
+cmds.text(label='Condition', annotation="Current item refered to as X.")
 conditionFieldGrpVar = cmds.textFieldGrp()
-#cmds.frameLayout(label="Section 1", collapsable=True, collapse=False, borderStyle='etchedOut')
+
+
+
+cmds.frameLayout(label=f"Shared attributes ({len(C)})", collapsable=True, collapse=False, borderStyle='etchedOut')
+cmds.columnLayout(adjustableColumn=True)
+
+
+
+for i in C :
+    cmds.text(label=i)
+    attributesText[i] = cmds.textFieldGrp(cc=Test(i))
+cmds.setParent('..')
+cmds.setParent('..')
+
+
+
+
 reorgCheck = cmds.checkBox(label="Reorder")
 cmds.button( label='Create Folder', command=createFolder )
 
