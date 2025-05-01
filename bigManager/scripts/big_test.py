@@ -39,6 +39,15 @@ def test_massRename():
     assert O == ['F', 'F_A', 'F_B']
     cmds.delete("F")
 
+    cmds.sphere(name = "A")
+    cmds.sphere(name = "B")
+    cmds.select("A","B")
+    cmds.group(name = "A")
+    massRename.massRename("A")
+    O = cmds.ls("A","A_A","A_B", "A_C") 
+    assert O == ['A', 'A_A', 'A_B']
+    cmds.delete("A")
+
 def test_createFolder():
     print("--TESTING FOLDER--")
     cmds.sphere(name = "A")

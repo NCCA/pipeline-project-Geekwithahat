@@ -5,6 +5,7 @@ import re
 import maya.cmds as cmds
 
 def massRename(name) -> None :
+    cmds.select(clear=True)
     cmds.select(name, hierarchy = True)
     selected = cmds.ls(selection=True)
     
@@ -20,7 +21,7 @@ def massRename(name) -> None :
     
     
     for rn in selected : 
-        if (rn == assetName) | ('|' in rn) | ("Shape" in rn) | (assetName in rn):
+        if (rn == assetName) | ('|' in rn) | ("Shape" in rn) :
             continue
         cmds.select(rn)
         cmds.rename(replace[rn])
@@ -31,6 +32,7 @@ def createFolder(folderName) -> None :
     massRename(folderName)
 
 def find(regEx, folderName) -> None :
+    cmds.select(clear=True)
     for i in cmds.ls(typ="transform") :
         if(re.findall(regEx, i) != []):
             cmds.select(i, add=True)
@@ -38,6 +40,7 @@ def find(regEx, folderName) -> None :
     createFolder(folderName) 
 
 def findOpen(regEx, folderName) -> None :
+    cmds.select(clear=True)
     for i in cmds.ls(typ="transform") :
         if(re.findall(regEx, i) != []):
             cmds.Unparent()
@@ -46,18 +49,21 @@ def findOpen(regEx, folderName) -> None :
     createFolder(folderName) 
 
 def shiftLayer(regEx, layerName) -> None :
+    cmds.select(clear=True)
     for i in cmds.ls(typ="transform") :
         if(re.findall(regEx, i) != []):
             cmds.select(i, add=True)
     cmds.createDisplayLayer(name=layerName)
 
 def conditionalFolder(condition, folderName) :
+    cmds.select(clear=True)
     for X in cmds.ls(typ="transform") :
         if(eval(condition)):
             cmds.select(X, add=True)
     createFolder(folderName) 
 
 def conditionalFolderOpen(condition, folderName) :
+    cmds.select(clear=True)
     for X in cmds.ls(typ="transform") :
         if(eval(condition)):
             cmds.Unparent()
