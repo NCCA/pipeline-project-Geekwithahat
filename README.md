@@ -41,4 +41,6 @@ __**To Do:**__
       - "second run issue"
       -  attributes detected, need to update display
   
-- odd catastrophic (kills maya) bug if folder looks for e1 
+- odd catastrophic (kills maya) bug if folder looks for e1
+
+- put this todo list into code
