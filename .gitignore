@@ -1,0 +1,7 @@
+bigManager/bigManager.egg-info
+bigManager/__pycache__
+bigManager/pyproject.toml
+bigManager/.pytest_cache
+bigManager/.python-version
+bigManager/uv.lock
+bigManager/.venv
