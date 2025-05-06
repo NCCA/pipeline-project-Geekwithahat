@@ -60,53 +60,24 @@ def repeatLast(*args):
     folderName = cmds.textFieldGrp(ElementsFieldGrpVar, q=1, text=1)
     procedureCascade.repeatLast(folderName)
 
-def reRun(*args):
-    cmds.window("Big Manager")
-    cmds.columnLayout()
-
-    cmds.text( label='Folder Name' )
-    folderFieldGrpVar = cmds.textFieldGrp()
-    cmds.text(label='Search')
-    regexF_FieldGrpVar = cmds.textFieldGrp()
-    cmds.text(label='Condition')
-    conditionFieldGrpVar = cmds.textFieldGrp()
-    reorgCheck = cmds.checkBox(label="Reorder")
-    cmds.button( label='Create Folder', command=createFolder )
-
-    cmds.text( label='Layer Name' )
-    layerFieldGrpVar = cmds.textFieldGrp()
-    cmds.text(label='Search')
-    regexL_FieldGrpVar = cmds.textFieldGrp()
-    cmds.button( label='Create Layer', command=createLayer )
-
-    cmds.text( label='Folder Name' )
-    ElementsFieldGrpVar = cmds.textFieldGrp()
-    cmds.text(label='Code')
-    code_FieldGrpVar = cmds.textFieldGrp()
-    cmds.button( label='Execute', command=cascadeAttributes )
-    cmds.showWindow()
 
 
 
+UPPER_WINDOW = cmds.window("Big Manager")
 
+MAIN_WINDOW = cmds.columnLayout(adjustableColumn=True, parent=UPPER_WINDOW )
 
-MAIN_WINDOW = cmds.window("Big Manager")
-
-cmds.columnLayout(adjustableColumn=True, parent=MAIN_WINDOW )
-
-cmds.dockControl( area='left', content=myWindow, allowedArea=allowedAreas, parent=MAIN_WINDOW )
-
-cmds.text(label="Folder Management", align='right', font='boldLabelFont', parent=MAIN_WINDOW)
+cmds.text(label="Folder Management     ", align='right', font='boldLabelFont', parent=MAIN_WINDOW)
 cmds.text( label='Folder Name', parent=MAIN_WINDOW )
-folderFieldGrpVar = cmds.textFieldGrp(, parent=MAIN_WINDOW)
+folderFieldGrpVar = cmds.textFieldGrp(parent=MAIN_WINDOW)
 cmds.text(label='Search', parent=MAIN_WINDOW)
-regexF_FieldGrpVar = cmds.textFieldGrp(, parent=MAIN_WINDOW)
+regexF_FieldGrpVar = cmds.textFieldGrp(parent=MAIN_WINDOW)
 cmds.text(label='Condition', annotation="Current item refered to as X.", parent=MAIN_WINDOW)
-conditionFieldGrpVar = cmds.textFieldGrp(, parent=MAIN_WINDOW)
+conditionFieldGrpVar = cmds.textFieldGrp( parent=MAIN_WINDOW)
 
 
 
-cmds.frameLayout(label=f"Shared attributes ({len(C)})", collapsable=True, collapse=False, borderStyle='etchedOut', parent=MAIN_WINDOW)
+cmds.frameLayout(label=f"Shared attributes ({len(C)})", collapsable=True, collapse=False, parent=MAIN_WINDOW)
 cmds.columnLayout(adjustableColumn=True, parent=MAIN_WINDOW)
 
 
@@ -123,21 +94,22 @@ cmds.setParent('..')
 reorgCheck = cmds.checkBox(label="Reorder", parent=MAIN_WINDOW)
 cmds.button( label='Create Folder', command=createFolder, parent=MAIN_WINDOW )
 
-cmds.text(label="Layer Management", align='right', font='boldLabelFont', parent=MAIN_WINDOW)
+cmds.text(label="Layer Management    ", align='right', font='boldLabelFont', parent=MAIN_WINDOW)
 cmds.text( label='Layer Name', parent=MAIN_WINDOW )
-layerFieldGrpVar = cmds.textFieldGrp(, parent=MAIN_WINDOW)
+layerFieldGrpVar = cmds.textFieldGrp( parent=MAIN_WINDOW)
 cmds.text(label='Search', parent=MAIN_WINDOW)
-regexL_FieldGrpVar = cmds.textFieldGrp(, parent=MAIN_WINDOW)
+regexL_FieldGrpVar = cmds.textFieldGrp( parent=MAIN_WINDOW)
 cmds.button( label='Create Layer', command=createLayer, parent=MAIN_WINDOW )
 
-cmds.text(label="Function Cascade", align='right', font='boldLabelFont', parent=MAIN_WINDOW)
+cmds.text(label="Function Cascade    ", align='right', font='boldLabelFont', parent=MAIN_WINDOW)
 cmds.text( label='Folder Name', parent=MAIN_WINDOW)
-ElementsFieldGrpVar = cmds.textFieldGrp(, parent=MAIN_WINDOW)
+ElementsFieldGrpVar = cmds.textFieldGrp( parent=MAIN_WINDOW)
 cmds.text(label='Code', parent=MAIN_WINDOW)
-code_FieldGrpVar = cmds.textFieldGrp(, parent=MAIN_WINDOW)
+code_FieldGrpVar = cmds.textFieldGrp( parent=MAIN_WINDOW)
 cmds.button( label='Execute', command=cascadeAttributes, parent=MAIN_WINDOW )
 cmds.button( label='Repeat Last', command=repeatLast, parent=MAIN_WINDOW)
 
+cmds.dockControl(label="Big Manager", area='left', content=UPPER_WINDOW, parent=MAIN_WINDOW )
 
 cmds.showWindow()
 
