@@ -63,9 +63,7 @@ def repeatLast(*args):
 
 
 
-UPPER_WINDOW = cmds.window("Big Manager")
-
-MAIN_WINDOW = cmds.columnLayout(adjustableColumn=True, parent=UPPER_WINDOW )
+MAIN_WINDOW = cmds.columnLayout(adjustableColumn=True)
 
 cmds.text(label="Folder Management     ", align='right', font='boldLabelFont', parent=MAIN_WINDOW)
 cmds.text( label='Folder Name', parent=MAIN_WINDOW )
@@ -109,10 +107,9 @@ code_FieldGrpVar = cmds.textFieldGrp( parent=MAIN_WINDOW)
 cmds.button( label='Execute', command=cascadeAttributes, parent=MAIN_WINDOW )
 cmds.button( label='Repeat Last', command=repeatLast, parent=MAIN_WINDOW)
 
-cmds.dockControl(label="Big Manager", area='left', content=UPPER_WINDOW, parent=MAIN_WINDOW )
 
-cmds.showWindow()
-
+allowedAreas = ['right', 'left']
+cmds.dockControl( label="Big Manager", area='left', content=MAIN_WINDOW, allowedArea=allowedAreas )
 
 
 # def Test(*args) :
