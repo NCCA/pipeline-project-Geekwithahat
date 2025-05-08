@@ -20,7 +20,6 @@ if cmds.dockControl("bigUI",exists=True) :
 def updateSelectedAttributes():
     global C
     for I in cmds.ls(sl=True) :
-        cmds.select(I)
         A = cmds.listAttr(I, write=True)
         if C == [] :
             C = A
@@ -49,6 +48,20 @@ def createFolder(*args):
     folderName = cmds.textFieldGrp("ffGV", q=1, text=1)
     regex = cmds.textFieldGrp("rffGV", q=1, text=1)
     condition = cmds.textFieldGrp("cfGV", q=1, text=1)
+
+    if(condition == ""):
+        condition = "True"
+    
+    for y in C : 
+        try:
+            attr = cmds.textFieldGrp(y + "_aFF", q=1, text=1)
+            print(attr)
+            if attr != "" : 
+                condition += " and cmds.getAttr(X + '." + y + "') == " + attr
+        except:
+            continue
+
+
     if(cmds.checkBox("rC", q=1, v=True)):
         if condition != "" : 
             massRename.conditionalFolderOpen(condition, folderName)
