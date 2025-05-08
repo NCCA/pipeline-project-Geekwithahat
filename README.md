@@ -43,4 +43,6 @@ __**To Do:**__
   
 - odd catastrophic (kills maya) bug if folder looks for e1
 
+- Issue adding particles to folder? possibly too many attributes in shared attribute detection
+
 - put this todo list into code
