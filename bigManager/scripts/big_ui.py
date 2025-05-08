@@ -11,42 +11,54 @@ attributesCondition = {}
 C = []
 
 
+if cmds.dockControl("bigUI",exists=True) :
+    cmds.deleteUI("bigUI")
 
 
-def updateSelectedAttributes(*args):
+
+
+def updateSelectedAttributes():
     global C
     for I in cmds.ls(sl=True) :
         cmds.select(I)
         A = cmds.listAttr(I, write=True)
-        print(I)
         if C == [] :
             C = A
         else :
-            for x in C :
-                for y in A :
-                    if x == y :
-                        C += [x]
+            C = set(C).intersection(A)
+    updateSelectedAttributeUI()
+
+
+
+def updateSelectedAttributeUI():
+    global C
+    for i in C :
+        attributesText[i] = cmds.textFieldGrp(i + "_aFF",label=i, parent="attributeColumn")
+
+def clearSelectedAttributeUI():
+    global C
+    for i in C :
+        try:
+            attributesText[i] = cmds.deleteUI(i + "_aFF")
+        except:
+            continue
+    C = []
 
 
 def createFolder(*args):
+    folderName = cmds.textFieldGrp("ffGV", q=1, text=1)
+    regex = cmds.textFieldGrp("rffGV", q=1, text=1)
+    condition = cmds.textFieldGrp("cfGV", q=1, text=1)
     if(cmds.checkBox("rC", q=1, v=True)):
-        folderName = cmds.textFieldGrp("ffGV", q=1, text=1)
-        regex = cmds.textFieldGrp("rffGV", q=1, text=1)
-        condition = cmds.textFieldGrp("cfGV", q=1, text=1)
         if condition != "" : 
             massRename.conditionalFolderOpen(condition, folderName)
         else:
             massRename.findOpen(regex, folderName)
     else: 
-        folderName = cmds.textFieldGrp("ffGV", q=1, text=1)
-        regex = cmds.textFieldGrp("rffGV", q=1, text=1)
-        condition = cmds.textFieldGrp("cfGV", q=1, text=1)
         if condition != "" : 
             massRename.conditionalFolder(condition, folderName)
         else:
             massRename.find(regex, folderName)
-    
-    updateSelectedAttributes()
 
 def createLayer(*args):
     layerName = cmds.textFieldGrp("lfGV", q=1, text=1)
@@ -63,9 +75,8 @@ def repeatLast(*args):
     procedureCascade.repeatLast(folderName)
 
 
-
-
-MAIN_WINDOW = cmds.columnLayout(adjustableColumn=True)
+cmds.columnLayout("columnLayout", adjustableColumn=True)
+cmds.scrollLayout( horizontalScrollBarThickness=16, verticalScrollBarThickness=16)
 cmds.text(label="Folder Management     ", align='right', font='boldLabelFont')
 folderFieldGrpVar = cmds.textFieldGrp("ffGV", label='Folder Name', text="")
 regexF_FieldGrpVar = cmds.textFieldGrp("rffGV", label="Search", text="")
@@ -73,16 +84,13 @@ conditionFieldGrpVar = cmds.textFieldGrp("cfGV", label='Condition', annotation="
 
 
 
-cmds.frameLayout(label=f"Shared attributes ({len(C)})", collapsable=True, collapse=False)
-cmds.columnLayout(adjustableColumn=True)
+cmds.frameLayout(label=f"Shared attributes", collapsable=True, collapse=True, 
+preExpandCommand=updateSelectedAttributes, preCollapseCommand=clearSelectedAttributeUI)
 
+cmds.columnLayout("attributeColumn", adjustableColumn=True)
 
-
-for i in C :
-    cmds.text(label=i)
-    attributesText[i] = cmds.textFieldGrp(cc=Test(i))
-cmds.setParent('..')
-cmds.setParent('..')
+cmds.setParent("..")
+cmds.setParent("..")
 
 
 
@@ -102,37 +110,4 @@ cmds.button( label='Execute', command=cascadeAttributes)
 cmds.button( label='Repeat Last', command=repeatLast)
 
 
-allowedAreas = ['right', 'left']
-cmds.dockControl( label="Big Manager", area='left', content=MAIN_WINDOW, allowedArea=allowedAreas )
-
-
-# def Test(*args) :
-#     attributesCondition[attributesText[args]] = cmds.textFieldGrp(attributesText[args], q=1, text=1)
-
-# cmds.window("Big Manager")
-# cmds.columnLayout(adjustableColumn=True )
-# cmds.frameLayout(label="Section 2", collapsable=True, collapse=True, borderStyle='etchedOut')
-
-# attributesText = {}
-# attributesCondition = {}
-
-# C = []
-
-
-# for I in cmds.ls(sl=True) :
-#     cmds.select(I)
-#     A = cmds.listAttr(I, write=True)
-#     print(I)
-#     if C == [] :
-#         C = A
-#     else :
-#         for x in C :
-#             for y in A :
-#                 if x == y :
-#                     C += [x]
-
-# for i in C :
-#     cmds.text(label=i)
-#     attributesText[i] = cmds.textFieldGrp(cc=Test(i))
-
-# cmds.showWindow()
+cmds.dockControl("bigUI", label="Big Manager", area='left', content="columnLayout")
