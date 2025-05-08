@@ -18,7 +18,7 @@ __**Possible functions**__
 
 - Possible mass attribute editing and cascading attribute changes /
 
-- Possible organisational functions for complex scenes beyond this (i.e management ui)
+- Possible organisational functions for complex scenes beyond this (i.e management ui) /
 
 - Folder organisation through provided conditional test (make easier through highlighting attributes??) /
 
@@ -35,14 +35,13 @@ __**Cascading Protocols**__
 __**To Do:**__
 
 - Consider full module implementation ("cmds or just a module)
-    - Currently implemented as module, boots on start-up before? the rest of maya, need to debug
-
-- Continue attribute detection
-      - "second run issue"
-      -  attributes detected, need to update display
+    - Currently implemented as module, boots on start-up before? the rest of maya, need to debug]
+    - removing cache has stopped on-start boot, will fix
   
 - odd catastrophic (kills maya) bug if folder looks for e1
 
 - Issue adding particles to folder? possibly too many attributes in shared attribute detection
 
 - put this todo list into code
+
+- reorg button needs to collapse old folders / at least remove existing items from their folders
