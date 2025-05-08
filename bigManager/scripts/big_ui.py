@@ -10,6 +10,8 @@ attributesText = {}
 attributesCondition = {}
 C = []
 
+MAIN_WINDOW = cmds.columnLayout(adjustableColumn=True)
+
 
 def updateSelectedAttributes(*args):
     global C
@@ -28,17 +30,17 @@ def updateSelectedAttributes(*args):
 
 def createFolder(*args):
     if(cmds.checkBox(reorgCheck, q=1, v=True)):
-        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
-        regex = cmds.textFieldGrp(regexF_FieldGrpVar, q=1, text=1)
-        condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1)
+        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1, parent=True)
+        regex = cmds.textFieldGrp(regexF_FieldGrpVar, q=1, text=1, parent=True)
+        condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1, parent=True)
         if condition != "" : 
             massRename.conditionalFolderOpen(condition, folderName)
         else:
             massRename.findOpen(regex, folderName)
     else: 
-        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1)
-        regex = cmds.textFieldGrp(regexF_FieldGrpVar, q=1, text=1)
-        condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1)
+        folderName = cmds.textFieldGrp(folderFieldGrpVar, q=1, text=1, parent=True)
+        regex = cmds.textFieldGrp(regexF_FieldGrpVar, q=1, text=1, parent=True)
+        condition = cmds.textFieldGrp(conditionFieldGrpVar, q=1, text=1, parent=True)
         if condition != "" : 
             massRename.conditionalFolder(condition, folderName)
         else:
@@ -47,23 +49,23 @@ def createFolder(*args):
     updateSelectedAttributes()
 
 def createLayer(*args):
-    layerName = cmds.textFieldGrp(layerFieldGrpVar, q=1, text=1)
-    regex = cmds.textFieldGrp(regexL_FieldGrpVar, q=1, text=1)
+    layerName = cmds.textFieldGrp(layerFieldGrpVar, q=1, text=1, parent=True)
+    regex = cmds.textFieldGrp(regexL_FieldGrpVar, q=1, text=1, parent=True)
     massRename.shiftLayer(regex, layerName)
 
 def cascadeAttributes(*args):
-    folderName = cmds.textFieldGrp(ElementsFieldGrpVar, q=1, text=1)
-    code = cmds.textFieldGrp(code_FieldGrpVar, q=1, text=1)
+    folderName = cmds.textFieldGrp(ElementsFieldGrpVar, q=1, text=1, parent=True)
+    code = cmds.textFieldGrp(code_FieldGrpVar, q=1, text=1, parent=True)
     procedureCascade.cascadeFunctions(folderName, code)
 
 def repeatLast(*args):
-    folderName = cmds.textFieldGrp(ElementsFieldGrpVar, q=1, text=1)
+    folderName = cmds.textFieldGrp(ElementsFieldGrpVar, q=1, text=1, parent=True)
     procedureCascade.repeatLast(folderName)
 
 
 
 
-MAIN_WINDOW = cmds.columnLayout(adjustableColumn=True)
+
 
 cmds.text(label="Folder Management     ", align='right', font='boldLabelFont', parent=MAIN_WINDOW)
 cmds.text( label='Folder Name', parent=MAIN_WINDOW )
@@ -81,8 +83,8 @@ cmds.columnLayout(adjustableColumn=True, parent=MAIN_WINDOW)
 
 
 for i in C :
-    cmds.text(label=i)
-    attributesText[i] = cmds.textFieldGrp(cc=Test(i))
+    cmds.text(label=i, parent=MAIN_WINDOW)
+    attributesText[i] = cmds.textFieldGrp(cc=Test(i), parent=MAIN_WINDOW)
 cmds.setParent('..')
 cmds.setParent('..')
 
