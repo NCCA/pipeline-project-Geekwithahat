@@ -6,6 +6,10 @@ import re
 #import maya.standalone
 #maya.standalone.initialize(name="python")
 
+'''
+Initial Testing for basic functionality within the Plugin without UI.
+'''
+
 def runAll():
     test_pytest()
     test_mayaTest()
