@@ -21,13 +21,22 @@ def massRename(name) -> None :
     
     
     for rn in selected : 
-        if (rn == assetName) | ('|' in rn) | ("Shape" in rn) :
+        try:
+            if (rn == assetName) | ('|' in rn) | ("Shape" in rn) :
+                continue
+            cmds.select(rn)
+            cmds.rename(replace[rn])
+        except:
             continue
-        cmds.select(rn)
-        cmds.rename(replace[rn])
 
 
 def createFolder(folderName) -> None :
+    cmds.group(n=folderName)
+    massRename(folderName)
+
+def createFolderOpen(folderName) -> None :
+    if(bool(cmds.listRelatives(i, parent=True))):
+        cmds.parent(world=True)
     cmds.group(n=folderName)
     massRename(folderName)
 
@@ -41,11 +50,17 @@ def find(regEx, folderName) -> None :
 
 def findOpen(regEx, folderName) -> None :
     cmds.select(clear=True)
+    selection = []
     for i in cmds.ls(typ="transform") :
         if(re.findall(regEx, i) != []):
-            cmds.Unparent()
-            cmds.select(i, add=True)
-
+            if(bool(cmds.listRelatives(i, parent=True))):
+                try:
+                    cmds.parent(i,world=True)
+                except:
+                    continue
+            cmds.select(i)
+            selection += cmds.ls(selection=True)
+    cmds.select(selection)
     createFolder(folderName) 
 
 def shiftLayer(regEx, layerName) -> None :
@@ -58,7 +73,6 @@ def shiftLayer(regEx, layerName) -> None :
 def conditionalFolder(condition, folderName) :
     cmds.select(clear=True)
     for X in cmds.ls(typ="transform") :
-        print(condition)
         if(eval(condition)):
             cmds.select(X, add=True)
     createFolder(folderName) 
@@ -67,8 +81,25 @@ def conditionalFolderOpen(condition, folderName) :
     cmds.select(clear=True)
     for X in cmds.ls(typ="transform") :
         if(eval(condition)):
-            cmds.Unparent()
+            if(bool(cmds.listRelatives(i, parent=True))):
+                cmds.parent(X,world=True)
             cmds.select(X, add=True)
     createFolder(folderName) 
 
-    
+def findConditionFolder(condition, regEx, folderName):
+    cmds.select(clear=True)
+    for X in cmds.ls(typ="transform") :
+        if(re.findall(regEx, X) != [] and eval(condition)):
+            cmds.select(X, add=True)
+
+    createFolder(folderName) 
+
+def findConditionFolderOpen(condition, regEx, folderName):
+    cmds.select(clear=True)
+    for X in cmds.ls(typ="transform") : 
+        if(re.findall(regEx, X) != [] and eval(condition)):
+            if(bool(cmds.listRelatives(i, parent=True))):
+                cmds.parent(X,world=True)
+            cmds.select(X, add=True)
+
+    createFolder(folderName) 
