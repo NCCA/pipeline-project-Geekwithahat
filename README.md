@@ -32,16 +32,10 @@ __**Cascading Protocols**__
     - still requires some form of saving in order to convert from one to another.
 - Ability to provide code to run on all aspects of a folder
 
-__**To Do:**__
+|**Issue**|**Error Level**|
+|---------|---------------|
+|Folder name ends with a number|Crash / Catastrophic|
+|Fails to add particle system to folders|Function error|
+|Fails to remove empty folders|Function error|
 
-- Consider full module implementation ("cmds or just a module)
-    - Currently implemented as module, boots on start-up before? the rest of maya, need to debug]
-    - removing cache has stopped on-start boot, will fix
-  
-- odd catastrophic (kills maya) bug if folder looks for e1
 
-- Issue adding particles to folder? possibly too many attributes in shared attribute detection
-
-- put this todo list into code
-
-- reorg button needs to collapse old folders / at least remove existing items from their folders
