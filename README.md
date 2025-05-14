@@ -6,7 +6,7 @@ Creating a tool within Maya for reformatting large scenes that have become diffi
 
 # Functionality
 
-## Folder Creation
+## __Folder Creation__
 
 Creates a Folder group, renaming everything within the folder to prepend the folder name, removing the number from the object's name and restarting Maya's numbering system for that group.
 
@@ -32,7 +32,7 @@ Presents a list of attributes common between the currently selected objects, pre
 
 A check-box allowing for attributes already within a folder to be removed from said group and placed into a different folder.
 
-## Layer Creation 
+## __Layer Creation__ 
 
 Places specified objects in a display layer of a given name, allowing for toggled visibility. 
 
@@ -54,7 +54,15 @@ Places objects passing an evaluated python condition into a display later.
 
 Presents a list of common attributes between the currently selected objects, presenting an input box for each attribute, allowing for a display layer to be created with each value being equal between all members of the layer.
 
+## __Function Cascade__
 
+When provided a folder and appropriate code, each item within the folder is selected and have the inputted procedure ran.
+
+**Repeat Last**
+
+Applies the last-ran action to each object within a provided folder name.
+
+# Known issues and Errors
 
 |**Known Issue**|**Error Level**|
 |---------|---------------|
