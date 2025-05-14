@@ -74,47 +74,61 @@ def createFolderOpen(folderName) -> None :
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         # check if in folder
         select = cmds.ls(selection=True)
-        for i in select:
-            try:
-                if(cmds.getAttr(cmds.listRelatives(parent=True)[0] + ".folderFlag")):
-                    cmds.parent(world=True)
-            except:
-                continue
-        cmds.select(select)
-        cmds.group(n=folderName)
-        massRename(folderName)
-        cleanFolders()
+        if(select != []):
+            # remove from folder if in folder
+            for i in select:
+                try:
+                    if(cmds.getAttr(cmds.listRelatives(parent=True)[0] + ".FolderFlag")):
+                        cmds.parent(world=True)
+                except:
+                    continue
+            cmds.select(select)
+            cmds.group(n=folderName)
+            # folder identifier
+            cmds.addAttr(folderName, longName="FolderFlag", attributeType="bool", defaultValue=True)
+            massRename(folderName)
+            cleanFolders()
+        else:
+            cmds.warning("Please alter selection of objects")
     else:
         cmds.warning("Please provide a unique folder name")
 
 
 def find(regEx, folderName) -> None :
-    if(folderName != "" and cmds.ls(folderName) != [folderName]):
+    # check name
+    if(folderName != "" and cmds.ls(folderName) != [folderName]): 
+        # clear previous selection 
         cmds.select(clear=True)
+        # check all valid objects  
         for i in cmds.ls(typ="transform") :
+            # run regex on name
             if(re.findall(regEx, i) != []):
                 cmds.select(i, add=True)
+        # add matches to folder
         createFolder(folderName) 
         cleanFolders()
     else:
         cmds.warning("Please provide a unique folder name")
 
 def findOpen(regEx, folderName) -> None :
+    # check name
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
+        # alternate selection method due to re-parenting removing selection 
         selection = []
         for i in cmds.ls(typ="transform") :
-            if i == folderName :
-                selfFlag = 1 
             if(re.findall(regEx, i) != []):
+                # remove existing folders
                 parent = cmds.listRelatives(i, parent=True)
                 if(parent != None):
+                    # fetch parent
                     parent = parent[0]
+                    # check parent is a folder (error if not found hence try)
                     try:
-                        if(cmds.getAttr(parent + ".folderFlag")):
+                        if(cmds.getAttr(parent + ".FolderFlag")):
                             cmds.parent(i,world=True)
                     except:
-                        continue
+                        pass
                 cmds.select(i)
                 selection += cmds.ls(selection=True)
         cmds.select(selection)
@@ -127,6 +141,7 @@ def conditionalFolder(condition, folderName) :
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
         for X in cmds.ls(typ="transform") :
+            # run condition as python code to evaluate
             if(eval(condition)):
                 cmds.select(X, add=True)
         createFolder(folderName) 
@@ -135,13 +150,23 @@ def conditionalFolder(condition, folderName) :
         cmds.warning("Please provide a unique folder name")
 
 def conditionalFolderOpen(condition, folderName) :
+    # repeat open command with condition evaluation
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
+        selection = []
         for X in cmds.ls(typ="transform") :
             if(eval(condition)):
-                if(bool(cmds.listRelatives(i, parent=True))):
-                    cmds.parent(X,world=True)
-                cmds.select(X, add=True)
+                parent = cmds.listRelatives(X, parent=True)
+                if(parent != None):
+                    parent = parent[0]
+                    try:
+                        if(cmds.getAttr(parent + ".FolderFlag")):
+                            cmds.parent(X,world=True)
+                    except:
+                        pass 
+                cmds.select(X)
+                selection += cmds.ls(selection=True)
+        cmds.select(selection)
         createFolder(folderName)
         cleanFolders()
     else:
@@ -151,6 +176,7 @@ def findConditionFolder(condition, regEx, folderName):
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
         for X in cmds.ls(typ="transform") :
+            # combine regex with condition
             if(re.findall(regEx, X) != [] and eval(condition)):
                 cmds.select(X, add=True)
 
@@ -160,14 +186,22 @@ def findConditionFolder(condition, regEx, folderName):
         cmds.warning("Please provide a unique folder name") 
 
 def findConditionFolderOpen(condition, regEx, folderName):
+    # same but open
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
+        selection = []
         for X in cmds.ls(typ="transform") : 
             if(re.findall(regEx, X) != [] and eval(condition)):
-                if(bool(cmds.listRelatives(i, parent=True))):
-                    cmds.parent(X,world=True)
-                cmds.select(X, add=True)
-
+                try:
+                    parent = cmds.listRelatives(X, parent=True)
+                    if(parent != None):
+                        if(cmds.getAttr(parent + ".FolderFlag")):
+                            cmds.parent(X,world=True)
+                except:
+                    pass
+                cmds.select(X)
+                selection += cmds.ls(selection=True)
+        cmds.select(selection)
         createFolder(folderName)
         cleanFolders()
 
@@ -175,10 +209,15 @@ def findConditionFolderOpen(condition, regEx, folderName):
         cmds.warning("Please provide a unique folder name") 
 
 def cleanFolders() :
+    # get all items in hierarchy
     allTransforms = cmds.ls(typ="transform")
     for i in allTransforms : 
-        if cmds.listRelatives(i) == None :
-            cmds.delete(i)
+        try:
+            # check if both a folder and empty -> remove
+            if cmds.listRelatives(i, children=True) == None and cmds.getAttr(i + ".FolderFlag") :
+                cmds.delete(i)
+        except:
+            pass
 
 
 
@@ -187,4 +226,5 @@ def shiftLayer(regEx, layerName) -> None :
     for i in cmds.ls(typ="transform") :
         if(re.findall(regEx, i) != []):
             cmds.select(i, add=True)
+    # create display layer with those that match the condition 
     cmds.createDisplayLayer(name=layerName)
