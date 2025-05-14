@@ -32,6 +32,30 @@ Presents a list of attributes common between the currently selected objects, pre
 
 A check-box allowing for attributes already within a folder to be removed from said group and placed into a different folder.
 
+## Layer Creation 
+
+Places specified objects in a display layer of a given name, allowing for toggled visibility. 
+
+**Selection Layer**
+
+Places current selection into a display layer.
+
+**Search Layer**
+
+Places objects of a name matching a RegEx string into a display layer.
+
+**Condition Folder**
+
+Places objects passing an evaluated python condition into a display later.
+
+*The currently evaluated item is stored in a given variable X.*
+
+**Shared Attributes**
+
+Presents a list of common attributes between the currently selected objects, presenting an input box for each attribute, allowing for a display layer to be created with each value being equal between all members of the layer.
+
+
+
 |**Known Issue**|**Error Level**|
 |---------|---------------|
 |Folder name ends with a number|Crash / Catastrophic|
