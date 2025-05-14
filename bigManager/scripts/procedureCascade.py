@@ -1,8 +1,16 @@
+'''
+Allow for repeated functions on every 
+'''
+
+#------ IMPORTS ------
+
 import maya.cmds as cmds
 import os
 import re
 import maya.mel as mel 
 
+
+# ------ OLD STREAM CODE ------
 
 # def createFunctionOut():
 #     cmds.scriptEditorInfo(ch=True)
@@ -21,7 +29,12 @@ import maya.mel as mel
 # def deleteFunctions() :
 #     os.remove("stream.txt")
 
+
+
+# ------ FUNCTION CASCADE ------
+
 def cascadeFunctions(Folder, Code) :
+    # every object
     cmds.select(clear=True)
     Reg = "^"+Folder+"_.*"
     for i in cmds.ls(typ="transform") :
@@ -29,12 +42,17 @@ def cascadeFunctions(Folder, Code) :
             cmds.select(i, add=True)
     x = cmds.ls(sl=True, typ="transform")
 
-
+    # apply function to each
     for object in x :
         cmds.select(object)
         exec(Code)
 
+
+
+# ------ REPEAT PREVIOUS COMMAND ------
+
 def repeatLast(Folder) :
+    # every object
     cmds.select(clear=True)
     Reg = "^"+Folder+"_.*"
     for i in cmds.ls(typ="transform") :
@@ -42,9 +60,8 @@ def repeatLast(Folder) :
             cmds.select(i, add=True)
     x = cmds.ls(sl=True, typ="transform")
 
-
+    # apply previous function for each object in folder
     for o in x :
         cmds.select(o)
-        print(o)
         mel.eval("RepeatLast")        
     
