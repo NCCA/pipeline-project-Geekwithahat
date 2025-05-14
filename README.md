@@ -30,7 +30,7 @@ Presents a list of attributes common between the currently selected objects, pre
 
 **Re-Order**
 
-A check-box allowing for attributes already within a folder to be removed and placed into a different folder.
+A check-box allowing for attributes already within a folder to be removed from said group and placed into a different folder.
 
 |**Known Issue**|**Error Level**|
 |---------|---------------|
