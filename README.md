@@ -11,20 +11,25 @@ Creating a tool within Maya for reformatting large scenes that have become diffi
 Creates a Folder group, renaming everything within the folder to prepend the folder name, removing the number from the object's name and restarting Maya's numbering system for that group.
 
 **Selection Folder**
+
 By default, objects selected within the scene are placed in a folder and reformatted.
 
 **Search Folder**
+
 By providing a RegEx value as a search variable, each object whose names matches the RegEx functions are placed in a folder and reformatted.
 
 **Condition Folder**
+
 By providing a Maya Python command, each item within a scene that evaluates the command True is placed in a given folder. 
 
 *The currently evaluated item is stored in a given variable X.*
 
 **Shared Attributes**
+
 Presents a list of attributes common between the currently selected objects, presenting an input box for each attribute, allowing for a folder to be created with each value being equal between all members of the folder. 
 
 **Re-Order**
+
 A check-box allowing for attributes already within a folder to be removed and placed into a different folder.
 
 |**Known Issue**|**Error Level**|
