@@ -59,7 +59,7 @@ def createFolder(folderName) -> None :
     if(cmds.ls(selection=True) != []):
         # name check 
         if(folderName != "" and cmds.ls(folderName) != [folderName]):
-
+            
             cmds.group(n=folderName)
             cmds.addAttr(folderName, longName="FolderFlag", attributeType="bool", defaultValue=True)
             massRename(folderName)
@@ -137,7 +137,7 @@ def findOpen(regEx, folderName) -> None :
     else:
         cmds.warning("Please provide a unique folder name")
 
-def conditionalFolder(condition, folderName) :
+def conditionalFolder(condition, folderName) -> None :
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
         for X in cmds.ls(typ="transform") :
@@ -149,7 +149,7 @@ def conditionalFolder(condition, folderName) :
     else:
         cmds.warning("Please provide a unique folder name")
 
-def conditionalFolderOpen(condition, folderName) :
+def conditionalFolderOpen(condition, folderName) -> None:
     # repeat open command with condition evaluation
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
@@ -172,7 +172,7 @@ def conditionalFolderOpen(condition, folderName) :
     else:
         cmds.warning("Please provide a unique folder name") 
 
-def findConditionFolder(condition, regEx, folderName):
+def findConditionFolder(condition, regEx, folderName) -> None:
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
         for X in cmds.ls(typ="transform") :
@@ -185,7 +185,7 @@ def findConditionFolder(condition, regEx, folderName):
     else:
         cmds.warning("Please provide a unique folder name") 
 
-def findConditionFolderOpen(condition, regEx, folderName):
+def findConditionFolderOpen(condition, regEx, folderName) -> None:
     # same but open
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
@@ -220,11 +220,43 @@ def cleanFolders() :
             pass
 
 
+# ------ SHIFT LAYER ------
 
-def shiftLayer(regEx, layerName) -> None :
+# similar functionality for layers
+def shiftLayer(layerName) -> None :
+    if cmds.ls(selection=True) != [] :
+        cmds.createDisplayLayer(name=layerName)
+    else:
+        cmds.warning("Please alter selection.")
+
+def shiftLayerSearch(regEx, layerName) -> None :
     cmds.select(clear=True)
     for i in cmds.ls(typ="transform") :
         if(re.findall(regEx, i) != []):
             cmds.select(i, add=True)
     # create display layer with those that match the condition 
-    cmds.createDisplayLayer(name=layerName)
+    if cmds.ls(selection=True) != [] :
+        cmds.createDisplayLayer(name=layerName)
+    else:
+        cmds.warning("Please alter selection.")
+
+def shiftLayerCondition(condition, layerName) -> None :
+    cmds.select(clear=True)
+    for X in cmds.ls(typ="transform") :
+        if(eval(condition)):
+            cmds.select(X, add=True)
+    if cmds.ls(selection=True) != [] :
+        cmds.createDisplayLayer(name=layerName)
+    else:
+        cmds.warning("Please alter selection.")
+
+def shiftLayerSearchAndCondition(condition, regEx, layerName) -> None :
+    cmds.select(clear=True)
+    for X in cmds.ls(typ="transform") :
+        if(re.findall(regEx, X) != [] and eval(condition)):
+            cmds.select(X, add=True)
+    # create display layer with those that match the condition 
+    if cmds.ls(selection=True) != [] :
+        cmds.createDisplayLayer(name=layerName)
+    else:
+        cmds.warning("Please alter selection.")

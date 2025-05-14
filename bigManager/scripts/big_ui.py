@@ -15,10 +15,11 @@ import procedureCascade
 
 folderName = "none"
 
-attributesText = {}
-attributesCondition = {}
+attributesText_F = {}
 C = []
 
+attributesText_L = {}
+L = []
 
 # Remove existing UI if re-opened.
 if cmds.dockControl("bigUI",exists=True) :
@@ -28,7 +29,7 @@ if cmds.dockControl("bigUI",exists=True) :
 # ------ATTRIBUTE IDENTIFICATION AND DISPLAY------
 
 
-def updateSelectedAttributes():
+def updateSelectedAttributesFolder():
     #import
     global C
     # get shared attributes between selected objects
@@ -40,18 +41,18 @@ def updateSelectedAttributes():
             C = set(C).intersection(A)
     # sort for ease of traversal
     C = sorted(C)
-    updateSelectedAttributeUI()
+    updateSelectedAttributeUI_Folder()
 
 
 
-def updateSelectedAttributeUI():
+def updateSelectedAttributeUI_Folder():
     global C
     for i in C :
         # remove attributes that "don't exist" but still apear (???)
         if "." not in i :
-            attributesText[i] = cmds.textFieldGrp(i + "_aFF",label=i, parent="attributeColumn")
+            attributesText_F[i] = cmds.textFieldGrp(i + "_aFF",label=i, parent="attributeColumn_F")
 
-def clearSelectedAttributeUI():
+def clearSelectedAttributeUI_folder():
     # import 
     global C
 
@@ -60,7 +61,7 @@ def clearSelectedAttributeUI():
 
         # avoid un-removable attributes
         try:
-            attributesText[i] = cmds.deleteUI(i + "_aFF")
+            attributesText_F[i] = cmds.deleteUI(i + "_aFF")
         except:
             continue
 
@@ -68,13 +69,52 @@ def clearSelectedAttributeUI():
     C = []
 
 
+def updateSelectedAttributesLayer():
+    #import
+    global L
+    # get shared attributes between selected objects
+    for I in cmds.ls(sl=True) :
+        A = cmds.listAttr(I, write=True)
+        if L == [] :
+            L = A
+        else :
+            L = set(L).intersection(A)
+    # sort for ease of traversal
+    L = sorted(L)
+    updateSelectedAttributeUI_Layer()
+
+
+
+def updateSelectedAttributeUI_Layer():
+    global L
+    for i in L :
+        # remove attributes that "don't exist" but still apear (???)
+        if "." not in i :
+            attributesText_L[i] = cmds.textFieldGrp(i + "_aFL",label=i, parent="attributeColumn_L")
+
+def clearSelectedAttributeUI_layer():
+    # import 
+    global L
+
+    # remove ui on closure of shelf
+    for i in L :
+
+        # avoid un-removable attributes
+        try:
+            attributesText_L[i] = cmds.deleteUI(i + "_aFL")
+        except:
+            continue
+
+    # clear global array
+    L = []
+
 # ------BUTTON CONNECTION------
 
 def createFolder(*args):
     # attribute fetch
     folderName = cmds.textFieldGrp("ffGV", q=1, text=1)
     regex = cmds.textFieldGrp("rffGV", q=1, text=1)
-    condition = cmds.textFieldGrp("cfGV", q=1, text=1)
+    condition = cmds.textFieldGrp("cffGV", q=1, text=1)
 
     # allow for empty conditions
     if(condition == ""):
@@ -117,7 +157,33 @@ def createFolder(*args):
 def createLayer(*args):
     layerName = cmds.textFieldGrp("lfGV", q=1, text=1)
     regex = cmds.textFieldGrp("rlfGV", q=1, text=1)
-    massRename.shiftLayer(regex, layerName)
+    condition = cmds.textFieldGrp("clfGV", q=1, text=1)
+
+
+    # allow for empty conditions
+    if(condition == ""):
+        condition = "True"
+    
+    # gain attribute conditions
+    for y in L : 
+        # avoid odd attributes that fail to read in exec() contect (??)
+        try:
+            # fetch
+            attr = cmds.textFieldGrp(y + "_aFL", q=1, text=1)
+            if attr != "" : 
+                # append to condition for exec()
+                condition += " and cmds.getAttr(X + '." + y + "') == " + attr
+        except:
+            continue
+
+    if regex != "" and condition != "True" :
+        massRename.shiftLayerSearchAndCondition(condition, regex, layerName)
+    elif regex != "" :
+        massRename.shiftLayerSearch(regex, layerName)
+    elif condition !="True":
+        massRename.shiftLayerCondition(condition, layerName)
+    else:
+        massRename.shiftLayer(layerName)
 
 def cascadeAttributes(*args):
     folderName = cmds.textFieldGrp("efGV", q=1, text=1)
@@ -140,15 +206,15 @@ cmds.scrollLayout( horizontalScrollBarThickness=16, verticalScrollBarThickness=1
 cmds.text(label="Folder Management     ", align='right', font='boldLabelFont')
 folderFieldGrpVar = cmds.textFieldGrp("ffGV", label='Folder Name', text="")
 regexF_FieldGrpVar = cmds.textFieldGrp("rffGV", label="Search", text="")
-conditionFieldGrpVar = cmds.textFieldGrp("cfGV", label='Condition', annotation="Current item refered to as X.", text="")
+conditionFieldGrpVar = cmds.textFieldGrp("cffGV", label='Condition', annotation="Current item refered to as X.", text="")
 
 
 # attribute frame
 cmds.frameLayout(label=f"Shared attributes (Advanced Search)", collapsable=True, collapse=True, 
-preExpandCommand=updateSelectedAttributes, preCollapseCommand=clearSelectedAttributeUI)
+preExpandCommand=updateSelectedAttributesFolder, preCollapseCommand=clearSelectedAttributeUI_folder)
 
 # allow for buttons
-cmds.columnLayout("attributeColumn", adjustableColumn=True)
+cmds.columnLayout("attributeColumn_F", adjustableColumn=True)
 
 # assign attribute ui to frame
 cmds.setParent("..")
@@ -165,7 +231,22 @@ cmds.button( label='Create Folder', command=createFolder )
 cmds.text(label="Layer Management    ", align='right', font='boldLabelFont')
 layerFieldGrpVar = cmds.textFieldGrp("lfGV", label='Layer Name', text="")
 regexL_FieldGrpVar = cmds.textFieldGrp("rlfGV", label='Search', text="")
-cmds.button( label='Create Layer', command=createLayer )
+conditionFieldGrpVar = cmds.textFieldGrp("clfGV", label='Condition', annotation="Current item refered to as X.", text="")
+
+
+# attribute frame
+cmds.frameLayout(label=f"Shared attributes (Advanced Search)", collapsable=True, collapse=True, 
+preExpandCommand=updateSelectedAttributesLayer, preCollapseCommand=clearSelectedAttributeUI_layer)
+
+# allow for buttons
+cmds.columnLayout("attributeColumn_L", adjustableColumn=True)
+
+# assign attribute ui to frame
+cmds.setParent("..")
+cmds.setParent("..")
+
+
+cmds.button( label='Create Layer', command=createLayer)
 
 
 # function cascade
