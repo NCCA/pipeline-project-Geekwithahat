@@ -18,5 +18,7 @@ Creates a Folder group, renaming everything within the folder to prepend the fol
 |Folder name ends with a number|Crash / Catastrophic|
 |Fails to add particle system to folders|Function error|
 |Fails to remove empty folders|Function error|
+|Internal Folder Inconcistency |Feature request|
+|Renaming on re-order of folders|Feature request|
 
 
