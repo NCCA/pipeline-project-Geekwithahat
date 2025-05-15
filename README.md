@@ -67,6 +67,5 @@ Applies the last-ran action to each object within a provided folder name.
 |**Known Issue**|**Error Level**|**Priority**
 |---------|---------------|------------------|
 |Fails to add particle system to folders|Function error|Low|
-|Renaming on re-order of folders|Feature request|Medium|
 
 
