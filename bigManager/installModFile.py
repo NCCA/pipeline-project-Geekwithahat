@@ -43,7 +43,7 @@ def install_module(location, os):
             # Going to set some test ENVARS
             file.write(f"BIGMAN_PATH = {current_dir}\n")
     else : 
-        print("ERROR MODULE FILE NOT FOUND")
+        print("FILE ALREADY INSTALLED?")
 
 
 def check_maya_installed(op_sys):

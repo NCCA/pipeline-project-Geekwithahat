@@ -44,8 +44,8 @@ def cascadeFunctions(Folder, Code) :
         x = cmds.ls(sl=True, typ="transform")
 
         # apply function to each
-        for object in x :
-            cmds.select(object)
+        for o in x :
+            cmds.select(o)
             exec(Code)
     except:
         cmds.warning("Provided code error.")

@@ -9,6 +9,7 @@ todo: eventually convert to Qt?
 import maya.cmds as cmds
 import massRename
 import procedureCascade
+import webbrowser as wb
 
 
 # ------GLOBAL VARIABLES------
@@ -24,6 +25,7 @@ L = []
 # Remove existing UI if re-opened.
 if cmds.dockControl("bigUI",exists=True) :
     cmds.deleteUI("bigUI")
+    cmds.deleteUI("columnLayout")
 
 
 # ------ATTRIBUTE IDENTIFICATION AND DISPLAY------
@@ -194,24 +196,37 @@ def repeatLast(*args):
     folderName = cmds.textFieldGrp("efGV", q=1, text=1)
     procedureCascade.repeatLast(folderName)
 
+def openDoc(*args):
+    wb.open("https://ncca.github.io/pipeline-project-Geekwithahat/")
+
+
 
 
 # ------ CREATION OF UI ------
 
 # base creation
-cmds.columnLayout("columnLayout", adjustableColumn=True)
-cmds.scrollLayout( horizontalScrollBarThickness=16, verticalScrollBarThickness=16, height=600)
+cmds.columnLayout("columnLayout", adjustableColumn=True, rowSpacing=10)
+cmds.scrollLayout("SL", horizontalScrollBarThickness=16, verticalScrollBarThickness=16, height=600)
 
 # folder management 
-cmds.text(label="Folder Management     ", align='right', font='boldLabelFont')
-folderFieldGrpVar = cmds.textFieldGrp("ffGV", label='Folder Name', text="")
-regexF_FieldGrpVar = cmds.textFieldGrp("rffGV", label="Search", text="")
-conditionFieldGrpVar = cmds.textFieldGrp("cffGV", label='Condition', annotation="Current item refered to as X.", text="")
+cmds.frameLayout("FFL", label="Folder Management", collapsable=True, collapse=False, parent="SL", marginWidth=10, marginHeight=10,
+annotation="Folder Management: Creates folder objects from current items in the scene.")
+
+folderFieldGrpVar = cmds.textFieldGrp("ffGV", label='Folder Name', text="", parent="FFL",
+annotation="Folder Name: Provide a name for a folder object.")
+
+regexF_FieldGrpVar = cmds.textFieldGrp("rffGV", label="Search", text="", parent="FFL",
+annotation="Folder Search: Search for items by name and add them to a folder.")
+
+conditionFieldGrpVar = cmds.textFieldGrp("cffGV", label='Condition',
+annotation="Condition Folder: Search for items by attribute \n Current item reffered to as X.", text="",parent="FFL")
 
 
 # attribute frame
 cmds.frameLayout(label=f"Shared attributes (Advanced Search)", collapsable=True, collapse=True, 
-preExpandCommand=updateSelectedAttributesFolder, preCollapseCommand=clearSelectedAttributeUI_folder)
+preExpandCommand=updateSelectedAttributesFolder, preCollapseCommand=clearSelectedAttributeUI_folder,
+parent="FFL", marginWidth=10, marginHeight=10,
+annotation="Display all attributes common between current selection.")
 
 # allow for buttons
 cmds.columnLayout("attributeColumn_F", adjustableColumn=True)
@@ -223,20 +238,31 @@ cmds.setParent("..")
 
 
 
-reorgCheck = cmds.checkBox("rC", label="Reorder")
-cmds.button( label='Create Folder', command=createFolder )
+reorgCheck = cmds.checkBox("rC", label="Reorder", align="centre",
+annotation="Reogranisation: Removed objects from folders before placing them in a new folder.")
+
+cmds.button( label='Create Folder', command=createFolder,
+annotation="Create Folder: Sources from selection or from above parameters." )
 
 
 # layer management
-cmds.text(label="Layer Management    ", align='right', font='boldLabelFont')
-layerFieldGrpVar = cmds.textFieldGrp("lfGV", label='Layer Name', text="")
-regexL_FieldGrpVar = cmds.textFieldGrp("rlfGV", label='Search', text="")
-conditionFieldGrpVar = cmds.textFieldGrp("clfGV", label='Condition', annotation="Current item refered to as X.", text="")
+cmds.frameLayout("LFL", label="Layer Management", collapsable=True, collapse=False, parent="SL", marginWidth=10, marginHeight=10,
+annotation="Layer Management: Creates a display layer from current items in the scene.")
+
+layerFieldGrpVar = cmds.textFieldGrp("lfGV", label='Layer Name', text="", parent="LFL",
+annotation="Layer Name: Provide a name for display layer." )
+
+regexL_FieldGrpVar = cmds.textFieldGrp("rlfGV", label='Search', text="", parent="LFL",
+annotation="Layer Search: Search for items by item name and add them to a display layer." )
+
+conditionFieldGrpVar = cmds.textFieldGrp("clfGV", label='Condition',
+annotation="Condition Layer: Search for items by attribute \n Current item reffered to as X.", text="", parent="LFL")
 
 
 # attribute frame
 cmds.frameLayout(label=f"Shared attributes (Advanced Search)", collapsable=True, collapse=True, 
-preExpandCommand=updateSelectedAttributesLayer, preCollapseCommand=clearSelectedAttributeUI_layer)
+preExpandCommand=updateSelectedAttributesLayer, preCollapseCommand=clearSelectedAttributeUI_layer,
+parent="LFL", marginWidth=10, marginHeight=10, annotation="Display all attributes comon between current selection.")
 
 # allow for buttons
 cmds.columnLayout("attributeColumn_L", adjustableColumn=True)
@@ -246,16 +272,30 @@ cmds.setParent("..")
 cmds.setParent("..")
 
 
-cmds.button( label='Create Layer', command=createLayer)
+cmds.button( label='Create Layer', command=createLayer,
+annotation="Create Layer: Sources from selection or from above parameters." )
 
 
 # function cascade
-cmds.text(label="Function Cascade    ", align='right', font='boldLabelFont')
-ElementsFieldGrpVar = cmds.textFieldGrp("efGV", label='Folder Name', text="")
-code_FieldGrpVar = cmds.textFieldGrp("cofGV", label='Code', text="")
-cmds.button( label='Execute', command=cascadeAttributes)
-cmds.button( label='Repeat Last', command=repeatLast)
+cmds.frameLayout("CFL", label="Cascade Management", collapsable=True, collapse=False, parent="SL", marginWidth=10, marginHeight=10,
+annotation="Cascade Management: Performs a given function on each item in a given folder." )
 
+ElementsFieldGrpVar = cmds.textFieldGrp("efGV", label='Folder Name', text="", parent="CFL",
+annotation="Folder Name: Provide the existing folder to cascade a procedure through." )
+
+code_FieldGrpVar = cmds.textFieldGrp("cofGV", label='Code', text="", parent="CFL",
+annotation="Cascade Function: Python function to be applied to each object in a folder." )
+
+cmds.button( label='Execute', command=cascadeAttributes, parent="CFL",
+annotation="Execute: Apply function to each object in a folder.")
+
+cmds.button( label='Repeat Last', command=repeatLast, parent="CFL",
+annotation="Cascade Function: Python function to be applied to each objects in a folder.")
+
+# Documentation open
+cmds.button(label="Help", command=openDoc, parent="SL",
+annotation="Help: Open documentation in a browser.")
 
 # allow for docking
-cmds.dockControl("bigUI", label="Big Manager", area='left', content="columnLayout")
+cmds.dockControl("bigUI", label="Big Manager", area='left', content="columnLayout", allowedArea="all")
+
