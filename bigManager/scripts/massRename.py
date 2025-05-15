@@ -37,12 +37,18 @@ def massRename(name) -> None :
     '''
     replace = {}
     
+    for f in range(len(selected)):
+
+        if(re.findall("^.*?_", selected[f]) != None and ('Shape' not in selected[f])):
+            cmds.select(selected[f])
+            cmds.rename(re.sub("^.*?_","",selected[f]))
+            selected[f] = re.sub("^.*?_","",selected[f])
+        
     for c in selected :
-         cN = re.findall("[A-Z, a-z 0-9, ^|_]*[a-z, A-Z]", c)[0]
-         if (cN == assetName) | ("|" in cN) | (re.search(".*Shape", cN) != None) | (c in replace):
-             continue
-         replace[c] = assetName + "_" + cN
-    
+        cN = re.findall("[A-Z, a-z 0-9, ^|_]*[a-z, A-Z]", c)[0]
+        if (cN == assetName) | ("|" in cN) | (re.search(".*Shape", cN) != None) | (c in replace):
+            continue
+        replace[c] = assetName + "_" + cN
     
     for rn in selected : 
         try:
@@ -52,15 +58,16 @@ def massRename(name) -> None :
             cmds.rename(replace[rn])
         except:
             continue
-
+    
 # basic selection folder
 def createFolder(folderName) -> None :
     if(re.search('[a-zA-Z]', folderName)) :
         # existence check
         if(cmds.ls(selection=True) != []):
+            # save selection
+            selection = cmds.ls(selection=True)
             # name check 
             if(folderName != "" and cmds.ls(folderName) != [folderName]):
-                
                 cmds.group(n=folderName)
                 cmds.addAttr(folderName, longName="FolderFlag", attributeType="bool", defaultValue=True)
                 massRename(folderName)
@@ -117,7 +124,6 @@ def findOpen(regEx, folderName) -> None :
     # check name
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
-        # alternate selection method due to re-parenting removing selection 
         selection = []
         for i in cmds.ls(typ="transform") :
             if(re.findall(regEx, i) != []):
