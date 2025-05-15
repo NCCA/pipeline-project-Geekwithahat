@@ -55,19 +55,22 @@ def massRename(name) -> None :
 
 # basic selection folder
 def createFolder(folderName) -> None :
-    # existence check
-    if(cmds.ls(selection=True) != []):
-        # name check 
-        if(folderName != "" and cmds.ls(folderName) != [folderName]):
-            
-            cmds.group(n=folderName)
-            cmds.addAttr(folderName, longName="FolderFlag", attributeType="bool", defaultValue=True)
-            massRename(folderName)
-            cleanFolders()
+    if(re.search('[a-zA-Z]', folderName)) :
+        # existence check
+        if(cmds.ls(selection=True) != []):
+            # name check 
+            if(folderName != "" and cmds.ls(folderName) != [folderName]):
+                
+                cmds.group(n=folderName)
+                cmds.addAttr(folderName, longName="FolderFlag", attributeType="bool", defaultValue=True)
+                massRename(folderName)
+                cleanFolders()
+            else:
+                cmds.warning("Please provide a unique folder name")
         else:
-            cmds.warning("Please provide a unique folder name")
+            cmds.warning("Please alter selection of objects")
     else:
-        cmds.warning("Please alter selection of objects")
+        cmds.warning("Please provide letter characters to name.")
 
 # create folder with reorganisation
 def createFolderOpen(folderName) -> None :
