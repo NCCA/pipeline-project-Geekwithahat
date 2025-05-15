@@ -64,12 +64,11 @@ Applies the last-ran action to each object within a provided folder name.
 
 # Known issues and Errors
 
-|**Known Issue**|**Error Level**|
+|**Known Issue**|**Error Level**|**Priority**
 |---------|---------------|
-|Folder name ends with a number|Crash / Catastrophic|
-|Fails to add particle system to folders|Function error|
-|Fails to remove empty folders|Function error|
-|Internal Folder Inconcistency |Feature request|
-|Renaming on re-order of folders|Feature request|
+|Folder name ends with a number|Crash / Catastrophic|High| 
+|Fails to add particle system to folders|Function error|Low|
+|Internal Folder Inconcistency |Feature request|Medium|
+|Renaming on re-order of folders|Feature request|Medium|
 
 
