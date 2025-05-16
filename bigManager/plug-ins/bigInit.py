@@ -2,7 +2,6 @@ import maya.api.OpenMaya as om
 import maya.cmds as cmds
 import importlib.util
 import sys
-import os
 
 maya_useNewAPI = True
 

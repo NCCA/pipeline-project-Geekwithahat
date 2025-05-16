@@ -5,9 +5,6 @@ Folder and layer creation for Big Manager
 
 #------ IMPORTS ------
 
-#import maya.standalone
-#maya.standalone.initialize(name="python")
-
 import re
 import maya.cmds as cmds
 

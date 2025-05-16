@@ -10,27 +10,6 @@ import re
 import maya.mel as mel 
 
 
-# ------ OLD STREAM CODE ------
-
-# def createFunctionOut():
-#     cmds.scriptEditorInfo(ch=True)
-#     streamOut = os.open("stream.txt", os.O_CREAT)
-#     cmds.scriptEditorInfo( historyFilename="stream.txt", writeHistory=True )
-
-# def readFunctions():
-#     streamOut = os.open("stream.txt", os.O_RDWR)
-#     return os.read(streamOut, os.path.getsize("stream.txt")).decode()
-
-# def writeFunctions(Input) :
-#     streamOut = os.open("stream.txt", os.O_RDWR)
-#     s = Input
-#     os.write(streamOut, str.encode(s))
-
-# def deleteFunctions() :
-#     os.remove("stream.txt")
-
-
-
 # ------ FUNCTION CASCADE ------
 
 def cascadeFunctions(Folder, Code) :

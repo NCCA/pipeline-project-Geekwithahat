@@ -1,10 +1,6 @@
-#import pytest
 import massRename
 import procedureCascade
 import maya.cmds as cmds
-import re
-#import maya.standalone
-#maya.standalone.initialize(name="python")
 
 '''
 Initial Testing for basic functionality within the Plugin without UI.
@@ -39,8 +35,8 @@ def test_massRename():
     cmds.select("A","B")
     cmds.group(name = "F")
     massRename.massRename("F")
-    O = cmds.ls("F","F_A","F_B", "F_C") 
-    assert O == ['F', 'F_A', 'F_B']
+    obj = cmds.ls("F","F_A","F_B", "F_C") 
+    assert obj == ['F', 'F_A', 'F_B']
     cmds.delete("F")
 
     cmds.sphere(name = "A")
@@ -48,8 +44,8 @@ def test_massRename():
     cmds.select("A","B")
     cmds.group(name = "A")
     massRename.massRename("A")
-    O = cmds.ls("A","A_A","A_B", "A_C") 
-    assert O == ['A', 'A_A', 'A_B']
+    obj = cmds.ls("A","A_A","A_B", "A_C") 
+    assert obj == ['A', 'A_A', 'A_B']
     cmds.delete("A")
 
 def test_createFolder():
@@ -68,8 +64,8 @@ def test_regex():
     cmds.sphere(name = "A2")
     cmds.sphere(name = "A3")
     massRename.find("A", "F")
-    O = cmds.ls("F","F_A","F_A1", "F_A2")
-    assert O == ['F', 'F_A', 'F_A1', 'F_A2']
+    obj = cmds.ls("F","F_A","F_A1", "F_A2")
+    assert obj == ['F', 'F_A', 'F_A1', 'F_A2']
     cmds.delete("F")
 
 def test_layerShift():
@@ -100,8 +96,8 @@ def test_Cascade():
     massRename.createFolder("F")
     procedureCascade.cascadeFunctions("F", "cmds.rename('test')")
     cmds.select("F", "test", "test1")
-    O = cmds.ls(sl=True)
-    assert O == ['F', 'test', 'test1']
+    obj = cmds.ls(sl=True)
+    assert obj == ['F', 'test', 'test1']
     cmds.delete("F")
 
 def test_RepeatLast():
@@ -111,8 +107,8 @@ def test_RepeatLast():
     massRename.createFolder("F")
     procedureCascade.repeatLast("F")
     cmds.select("F", "A","A1")
-    O = cmds.ls(sl=True)
-    assert O == ['F', 'A', 'A1']
+    obj = cmds.ls(sl=True)
+    assert obj == ['F', 'A', 'A1']
     cmds.delete("F")
 
 
