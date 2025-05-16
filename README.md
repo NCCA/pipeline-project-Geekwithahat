@@ -4,6 +4,12 @@
 
 Creating a tool within Maya for reformatting large scenes that have become difficult to manage without computational solutions, including renaming, grouping and mass-applying tools and procedures. Works with both the pre-existing editor, extends it to allow for quick access to certain functions, and can allow for the use of shelf tools. Focusing more on a scene with several objects that may need to be altered similarly.
 
+# Use
+
+Run installModFile.py
+
+Run cmds.BigInit() in Maya's Script editor
+
 # Functionality
 
 ## __Folder Creation__
@@ -67,5 +73,6 @@ Applies the last-ran action to each object within a provided folder name.
 |**Known Issue**|**Error Level**|**Priority**
 |---------|---------------|------------------|
 |Fails to add particle system to folders|Function error|Low|
+|Fails to load on boot instead of command run|Boot error|Low?|
 
 
