@@ -13,7 +13,7 @@ maya_locations = {
 }
 
 MODULE_NAME = "bigManager"
-VERSION = "0.1"
+VERSION = "1.0"
 PYTHON_PATHS = "scripts"
 
 

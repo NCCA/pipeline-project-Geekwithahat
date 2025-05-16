@@ -1,77 +1,14 @@
-# import * from massRename
-
-# def main():
-#     print("Hello from bigmanager!")
-
-# def initializePlugin(self):
-#     print("Initializing..... kindly stop complaining....")
-
-# def uninitializePlugin(self):
-#     print("Turning off..... kindly stop complaining.....")
-
-
-
-# if __name__ == "__main__":
-#     main()
-
-# def debug() -> int:
-#     print("debugging big init")
-#     return 1
-
 import maya.api.OpenMaya as om
 import maya.cmds as cmds
-import re
-
-'''
-def maya_useNewAPI():
-    """
-    Can either use this function (which works on earlier versions)
-    or we can set maya_useNewAPI = True
-    """
-    pass
-'''
+import importlib.util
+import sys
+import os
 
 maya_useNewAPI = True
 
 
 class BigMaya(om.MPxCommand):
-    CMD_NAME = "BigMaya"
-
-    def massRename(name) -> None :
-        cmds.select(name, hierarchy = True)
-        selected = cmds.ls(selection=True)
-        
-        assetName = selected[0]
-        
-        replace = {}
-        
-        for c in selected :
-            cN = re.findall("[A-Z, a-z 0-9, ^|_]*[a-z, A-Z]", c)[0]
-            if (cN == assetName) | ("|" in cN) | (re.search(".*Shape", cN) != None) | (c in replace):
-                continue
-            replace[c] = assetName + "_" + cN
-        
-        
-        for rn in selected : 
-            if (rn == assetName) | ('|' in rn) | ("Shape" in rn) | (assetName in rn):
-                continue
-            print(rn)
-            cmds.select(rn)
-            cmds.rename(replace[rn])
-        
-    def defaultButtonPush(*args):
-        print ('Button 1 was pushed.')
-
-
-
-    def createFolder(folderName) -> None :
-        cmds.group(n=folderName)
-        massRename(folderName)
-
-    def find(regEx, folderName) -> None :
-        x = cmds.ls(geometry=True) 
-        cmds.group(x, n="TEST")
-        createFolder(folderName) 
+    CMD_NAME = "BigInit"
 
     def __init__(self):
         super(BigMaya, self).__init__()
@@ -80,15 +17,18 @@ class BigMaya(om.MPxCommand):
         """
         Called when the command is executed in script
         """
-        print("HELLO FROM BIG INIT")
-        om.MGlobal.displayWarning("BIG WARNING")
-        om.MGlobal.displayError("BIG ERROR")
-        om.MGlobal.displayInfo("BIG INFO")
+        print("Loading Big Manager.....")
 
-        cmds.window( width=150 )
-        cmds.columnLayout( adjustableColumn=True )
-        cmds.button( label='Button 1', command=defaultButtonPush )
-        cmds.showWindow()
+
+        # Get the directory of the current file
+        path = cmds.moduleInfo(path=True, moduleName="bigManager")
+        path += "/scripts/big_ui.py"
+
+        # Load the module
+        spec = importlib.util.spec_from_file_location("big_ui", path)
+        data = importlib.util.module_from_spec(spec)
+        sys.modules["big_ui"] = data
+        spec.loader.exec_module(data)
 
     @classmethod
     def creator(cls):
@@ -97,18 +37,6 @@ class BigMaya(om.MPxCommand):
         """
         return BigMaya()
 
-class TestButton(om.MPxCommand) :
-    CMD_NAME = "TestButton"
-
-    def __init__(self):
-        super(TestButton, self).__init__()
-
-    def doIt(self, args) :
-        print("do it test")
-    
-    @classmethod
-    def creator(cls):
-        return TestButton()
     
     
 
@@ -128,7 +56,7 @@ def initializePlugin(plugin):
         plugin_fn.registerCommand(BigMaya.CMD_NAME, BigMaya.creator)
     except:
         om.MGlobal.displayError(
-            "Failed to register command: {0}".format(BigMaya.CMD_NAME)
+            "ERROR ERROR : Failed to register command: {0}".format(BigMaya.CMD_NAME)
         )
 
 
@@ -152,7 +80,7 @@ if __name__ == "__main__":
     As we are loading the plugin it needs to be in the plugin path.
     """
 
-    plugin_name = "BigMaya.py"
+    plugin_name = "bigInit.py"
 
     cmds.evalDeferred(
         'if cmds.pluginInfo("{0}", q=True, loaded=True): cmds.unloadPlugin("{0}")'.format(

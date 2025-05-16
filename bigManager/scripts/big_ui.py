@@ -24,8 +24,12 @@ L = []
 
 # Remove existing UI if re-opened.
 if cmds.dockControl("bigUI",exists=True) :
-    cmds.deleteUI("bigUI")
-    cmds.deleteUI("columnLayout")
+    try:
+        cmds.deleteUI("bigUI")
+        cmds.deleteUI("SL")
+        cmds.deleteUI("columnLayout")
+    except:
+        pass
 
 
 # ------ATTRIBUTE IDENTIFICATION AND DISPLAY------
