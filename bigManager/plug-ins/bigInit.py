@@ -48,7 +48,7 @@ def initializePlugin(plugin):
     Load our plugin
     """
     vendor = "WIFI_NULL"
-    version = "0.1.0"
+    version = "1.0.0"
 
     plugin_fn = om.MFnPlugin(plugin, vendor, version)
 
