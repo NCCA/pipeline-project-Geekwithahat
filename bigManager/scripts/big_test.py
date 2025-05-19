@@ -4,6 +4,36 @@ import maya.cmds as cmds
 
 '''
 Initial Testing for basic functionality within the Plugin without UI.
+
+Methods
+-------
+
+runAll()
+    Run all tests for Big Manager.
+
+test_pytest()
+    test testing
+
+test_mayaTest()
+    test maya.cmds
+
+test_massRename()
+    test massRename function
+
+test_createFolder()
+    test folder creation
+
+test_regex()
+    test creation from regex 
+
+test_layerShift()
+    test display creation
+
+test_Cascade()
+    test cascading function
+
+test_RepeatLast()
+    test repeat function for shelf
 '''
 
 def runAll():
@@ -13,7 +43,6 @@ def runAll():
     test_createFolder()
     test_regex()
     test_layerShift()
-    #test_Stream()
     test_Cascade()
 
 
@@ -77,16 +106,6 @@ def test_layerShift():
     assert ['A1Shape', 'A1', 'A2', 'A2Shape', 'A3', 'A3Shape'] == cmds.editDisplayLayerMembers( "TEST", query=True )    
     cmds.delete("TEST")
     cmds.delete("A1", "A2", "A3")
-
-def test_Stream():
-    print("--TESTING PREV FUNCTIONS--")
-    procedureCascade.createFunctionOut()
-    cmds.sphere(n='test')
-    out = procedureCascade.readFunctions()
-    print(out)
-    cmds.delete("test")
-    procedureCascade.deleteFunctions()
-    assert "cmds.sphere(n='test')" == out
 
 def test_Cascade():
     print("--TESTING PREV FUNCTIONS")

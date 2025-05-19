@@ -1,5 +1,16 @@
 '''
 Allow for repeated functions on every 
+
+
+Methods:
+-------
+
+cascadeFunctions(string Folder, string code)
+    Runs a given function over each object in a folder
+
+repeatLast(string folder)
+    Repeats the last ran function on every item in a folder
+
 '''
 
 #------ IMPORTS ------
@@ -12,7 +23,15 @@ import maya.mel as mel
 
 # ------ FUNCTION CASCADE ------
 
-def cascadeFunctions(Folder, Code) :
+def cascadeFunctions(Folder : str, Code : str) -> None:
+    '''
+    Runs a given function over each object in a folder
+
+    Parameters:
+    ----------
+    Folder - folder name to run over
+    Code - code to execute on each item
+    '''
     try:
         # every object
         cmds.select(clear=True)
@@ -33,7 +52,15 @@ def cascadeFunctions(Folder, Code) :
 
 # ------ REPEAT PREVIOUS COMMAND ------
 
-def repeatLast(Folder) :
+def repeatLast(Folder : str) -> None:
+    '''
+    Repeats the last ran function on every item in a folder
+
+    Parameters:
+    -----------
+    Folder - folder to run previous action over.
+
+    '''
     try:
         if(cmds.getAttr(Folder + ".FolderFlag")) : 
             # every object

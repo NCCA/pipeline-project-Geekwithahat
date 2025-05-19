@@ -1,5 +1,67 @@
 '''
 Folder and layer creation for Big Manager
+
+```
+Folder Methods
+------------
+massRename(string name)
+    Mass Formats all new members of a folder by pre-pending name.
+    (For formatting folder name)
+
+createFolder(string foldername)
+    Creates folder from selection.
+
+createFolderOpen(string foldername)
+    Creates folder from selection, unparents objects from pre-existing folders.
+
+find(string regEx, string foldername)
+    Creates a folder from objects whose names match the regex function provided.
+
+findOpen(string regEx, string foldername)
+    Creates a folder from objects whose names match the regex function provided, unparents objects from pre-existing folders.
+
+conditionalFolder(string condition, string folder)
+    Creates a folder from objects that match the given python function.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+conditionalFolderOpen(string condition, string folder)
+    Creates a folder from objects that match the given python function, unparents objects from pre-existing folders.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+findConditionFolder(string condition, string folderName)
+    Creates a folder from objects that both match the regex function and the given python function.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+findConditionFolderOpen(string condition, string folderName)
+    Creates a folder from objects that both match the regex function and the given python function, unparents objects from pre-existing folders.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+cleanFolders()
+    Removes folder objects without items within them. Automatically called whenever an Open function is called.
+
+```
+Layer Methods
+-------------
+shiftLayer(string layerName)
+    Places current selection into a new display layer.
+
+shiftLayerSearch(string regEx, string layerName)
+    Places all objects that match a regEx string into a display layer.
+
+shiftLayerCondition(string condition, string layerName)
+    Creates a display layer from objects that match the given python function.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+shiftLayerSearchAndCondition(string condition, string regEx, string layerName)
+    Creates a display layer from objects that match the given search condition and provided RegEx function.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
 '''
 
 
@@ -12,7 +74,27 @@ import maya.cmds as cmds
 
 
 # formats items within folder
-def massRename(name) -> None :
+def massRename(name: str) -> None :
+    '''
+    Mass Formats all new members of a folder.
+
+    Parameters:
+    -----------
+    name - Folder name to be prepended to all objects in a folder.
+
+    Process:
+    --------
+    Gain all names without numbers and alterations ->
+
+    Preppend name of folder ->
+
+    Assign dictionary as { origName : rename } ->
+
+    Reassign names ->
+
+    Allow Maya to handle numbering of repeats (automatic)
+    '''
+
     # prevent previous
     cmds.select(clear=True)
 
@@ -25,13 +107,6 @@ def massRename(name) -> None :
     # folder name
     assetName = selected[0]
     
-    '''
-    Gain all names without numbers and alterations ->
-    Preppend name of folder ->
-    Assign dictionary as { origName : rename } ->
-    Reassign ->
-    Allow Maya to handle numbering of repeats (automatic)
-    '''
     replace = {}
     
     for f in range(len(selected)):
@@ -57,7 +132,14 @@ def massRename(name) -> None :
             continue
     
 # basic selection folder
-def createFolder(folderName) -> None :
+def createFolder(folderName : str) -> None :
+    '''
+    Creates folder from selection.
+
+    Parameters:
+    -----------
+    folderName - Name of folder to be created.
+    '''
     if(re.search('[a-zA-Z]', folderName)) :
         # existence check
         if(cmds.ls(selection=True) != []):
@@ -77,7 +159,14 @@ def createFolder(folderName) -> None :
         cmds.warning("Please provide letter characters to name.")
 
 # create folder with reorganisation
-def createFolderOpen(folderName) -> None :
+def createFolderOpen(folderName : str) -> None :
+    '''
+    Creates folder from selection, unparents objects from pre-existing folders.
+
+    Parameters:
+    -----------
+    folderName - name of folder to be created.
+    '''
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         # check if in folder
         select = cmds.ls(selection=True)
@@ -101,7 +190,15 @@ def createFolderOpen(folderName) -> None :
         cmds.warning("Please provide a unique folder name")
 
 
-def find(regEx, folderName) -> None :
+def find(regEx : str, folderName : str) -> None :
+    '''
+    Creates a folder from objects whose names match the regex function provided.
+
+    Parameters:
+    ----------
+    regEx - regEx to search names with.
+    folderName - name of folder to be created.
+    '''
     # check name
     if(folderName != "" and cmds.ls(folderName) != [folderName]): 
         # clear previous selection 
@@ -117,7 +214,15 @@ def find(regEx, folderName) -> None :
     else:
         cmds.warning("Please provide a unique folder name")
 
-def findOpen(regEx, folderName) -> None :
+def findOpen(regEx : str, folderName : str) -> None :
+    '''
+    Creates a folder from objects whose names match the regex function provided, unparents objects from pre-existing folders.
+
+    Parameters:
+    -----------
+    regEx - regEx to search names with.
+    folderName - name of folder to be created.
+    '''
     # check name
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
@@ -143,7 +248,17 @@ def findOpen(regEx, folderName) -> None :
     else:
         cmds.warning("Please provide a unique folder name")
 
-def conditionalFolder(condition, folderName) -> None :
+def conditionalFolder(condition : str, folderName : str) -> None :
+    '''
+    Creates a folder from objects that match the given python function.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+    Parameters:
+    -----------
+    condition - condition to check for adding item to folder.
+    folderName - name of folder to be created.
+    '''
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
         for X in cmds.ls(typ="transform") :
@@ -155,7 +270,17 @@ def conditionalFolder(condition, folderName) -> None :
     else:
         cmds.warning("Please provide a unique folder name")
 
-def conditionalFolderOpen(condition, folderName) -> None:
+def conditionalFolderOpen(condition : str, folderName : str) -> None:
+    '''
+    Creates a folder from objects that match the given python function, unparents objects from pre-existing folders.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+    Parameters:
+    -----------
+    condition - condition to check for adding item to folder.
+    folderName - name of folder to be created.
+    '''
     # repeat open command with condition evaluation
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
@@ -178,7 +303,18 @@ def conditionalFolderOpen(condition, folderName) -> None:
     else:
         cmds.warning("Please provide a unique folder name") 
 
-def findConditionFolder(condition, regEx, folderName) -> None:
+def findConditionFolder(condition : str, regEx : str, folderName : str) -> None:
+    '''
+    Creates a folder from objects that both match the regex function and the given python function.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+    Parameters:
+    ----------
+    condition - condition to check for adding item to folder.
+    folderName - name of folder to be created.
+    regEx - regEx to search names with.
+    '''
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
         for X in cmds.ls(typ="transform") :
@@ -191,7 +327,18 @@ def findConditionFolder(condition, regEx, folderName) -> None:
     else:
         cmds.warning("Please provide a unique folder name") 
 
-def findConditionFolderOpen(condition, regEx, folderName) -> None:
+def findConditionFolderOpen(condition : str, regEx : str, folderName : str) -> None:
+    '''
+    Creates a folder from objects that both match the regex function and the given python function, unparents objects from pre-existing folders.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+    Parameters:
+    ----------
+    condition - condition to check for adding item to folder.
+    folderName - name of folder to be created.
+    regEx - regEx to search names with.
+    '''
     # same but open
     if(folderName != "" and cmds.ls(folderName) != [folderName]):
         cmds.select(clear=True)
@@ -214,7 +361,10 @@ def findConditionFolderOpen(condition, regEx, folderName) -> None:
     else:
         cmds.warning("Please provide a unique folder name") 
 
-def cleanFolders() :
+def cleanFolders() -> None:
+    '''
+    Removes folder objects without items within them. Automatically called whenever an Open function is called.
+    '''
     # get all items in hierarchy
     allTransforms = cmds.ls(typ="transform")
     for i in allTransforms : 
@@ -229,13 +379,28 @@ def cleanFolders() :
 # ------ SHIFT LAYER ------
 
 # similar functionality for layers
-def shiftLayer(layerName) -> None :
+def shiftLayer(layerName : str) -> None :
+    '''
+    Places current selection into a new display layer.
+
+    Parameters:
+    -----------
+    layerName - name 
+    '''
     if cmds.ls(selection=True) != [] :
         cmds.createDisplayLayer(name=layerName)
     else:
         cmds.warning("Please alter selection.")
 
-def shiftLayerSearch(regEx, layerName) -> None :
+def shiftLayerSearch(regEx : str, layerName : str) -> None :
+    '''
+    Places all objects that match a regEx string into a display layer.
+
+    Parameters:
+    ----------
+    regEx - provided regEx string
+    layerName - name of layer to create
+    '''
     cmds.select(clear=True)
     for i in cmds.ls(typ="transform") :
         if(re.findall(regEx, i) != []):
@@ -246,7 +411,17 @@ def shiftLayerSearch(regEx, layerName) -> None :
     else:
         cmds.warning("Please alter selection.")
 
-def shiftLayerCondition(condition, layerName) -> None :
+def shiftLayerCondition(condition : str, layerName : str) -> None :
+    '''
+    Creates a display layer from objects that match the given python function.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+    Parameters:
+    ------------
+    condition - condition to check object for to add to display layer
+    layerName - name of layer to create
+    '''
     cmds.select(clear=True)
     for X in cmds.ls(typ="transform") :
         if(eval(condition)):
@@ -256,7 +431,18 @@ def shiftLayerCondition(condition, layerName) -> None :
     else:
         cmds.warning("Please alter selection.")
 
-def shiftLayerSearchAndCondition(condition, regEx, layerName) -> None :
+def shiftLayerSearchAndCondition(condition : str, regEx : str, layerName : str) -> None :
+    '''
+    Creates a display layer from objects that match the given search condition and provided RegEx function.
+    Mostly useful for Cmds.getAttr() functions.
+    Each evaluated function is referered to as X.
+
+    Parameters:
+    -----------
+    condition - condition to check object for to add to display layer
+    layerName - name of layer to create
+    regEx - provided regEx string
+    '''
     cmds.select(clear=True)
     for X in cmds.ls(typ="transform") :
         if(re.findall(regEx, X) != [] and eval(condition)):

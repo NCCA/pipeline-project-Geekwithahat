@@ -13,17 +13,17 @@ class BigMaya(om.MPxCommand):
         super(BigMaya, self).__init__()
 
     def doIt(self, args):
-        """
-        Called when the command is executed in script
-        """
+        '''
+        Load and run big_ui on import.
+        '''
         print("Loading Big Manager.....")
 
 
-        # Get the directory of the current file
+        # directory
         path = cmds.moduleInfo(path=True, moduleName="bigManager")
         path += "/scripts/big_ui.py"
 
-        # Load the module
+        # Load module
         spec = importlib.util.spec_from_file_location("big_ui", path)
         data = importlib.util.module_from_spec(spec)
         sys.modules["big_ui"] = data
@@ -31,9 +31,6 @@ class BigMaya(om.MPxCommand):
 
     @classmethod
     def creator(cls):
-        """
-        Think of this as a factory
-        """
         return BigMaya()
 
     
@@ -43,12 +40,11 @@ class BigMaya(om.MPxCommand):
 
 
 def initializePlugin(plugin):
-    """
-    Load our plugin
-    """
+    '''
+    Info for Maya plugin window to display.
+    '''
     vendor = "WIFI_NULL"
     version = "1.0.0"
-
     plugin_fn = om.MFnPlugin(plugin, vendor, version)
 
     try:
@@ -73,13 +69,8 @@ def uninitializePlugin(plugin):
 
 
 if __name__ == "__main__":
-    """
-    So if we execute this in the script editor it will be a __main__ so we can put testing code etc here
-    Loading the plugin will not run this
-    As we are loading the plugin it needs to be in the plugin path.
-    """
 
-    plugin_name = "bigInit.py"
+    plugin_name = "bigManager.py"
 
     cmds.evalDeferred(
         'if cmds.pluginInfo("{0}", q=True, loaded=True): cmds.unloadPlugin("{0}")'.format(

@@ -1,3 +1,8 @@
+'''
+DEFAULT MAYA MODULE INSTALLATION
+'''
+
+
 #!/usr/bin/env -S uv run --script
 
 import os
@@ -16,6 +21,8 @@ VERSION = "1.0"
 PYTHON_PATHS = "scripts"
 
 
+
+
 def install_module(location, os):
     print(f"installing to {location}")
     # first write the module file
@@ -32,15 +39,10 @@ def install_module(location, os):
     if not Path(module_path).is_file():
         print("writing module file")
         with open(module_path, "w") as file:
-            # Firs write out the module name and version with location
             file.write(f"+ {MODULE_NAME} {VERSION} {current_dir}\n")
-            # we use += to append to the existing paths if it is
-            # +:= Operator we appending with Higher Priority (pre-pend)
             file.write(f"MAYA_PLUG_IN_PATH += {current_dir}/plug-ins\n")
             file.write(f"scripts += {current_dir}/{PYTHON_PATHS}\n")
             file.write(f"PYTHONPATH += {current_dir}/{PYTHON_PATHS}\n")
-            # Going to set some test ENVARS
-            file.write(f"BIGMAN_PATH = {current_dir}\n")
     else : 
         print("FILE ALREADY INSTALLED?")
 

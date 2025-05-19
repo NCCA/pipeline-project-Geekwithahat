@@ -1,7 +1,57 @@
 '''
-UI creation in the basic Maya user interface library
+UI creation in the basic Maya user interface library, booted on module import
 
-todo: eventually convert to Qt?
+ALL METHODS ARE INTERNAL, AND ARE THEREFORE DOCUMENTED HERE RATHER THAN IN INDIVIDUAL DOCSTRINGS.
+
+
+
+Methods:
+-------
+
+_updateSelectedAttributesFolder()
+    update attributes with shared attributes (folder)
+
+_updateSelectedAttributeUI_Folder()
+    add the UI to shelf (folder)
+
+_clearSelectedAttributeUI_folder()
+    prevent repeats in UI  (folder)
+
+_updateSelectedAttributesLayer()
+    update attribute with shared attributes (layer)
+
+_updateSelectedAttributeUI_Layer()
+    add the UI to shelf (layer)
+
+_clearSelectedAttributeUI_layer()
+    prevent repeats in UI (layer)
+
+_createFolder()
+    create folder based on input
+
+_createLayer()
+    create layers based on input
+
+_cascadeAttributes()
+    cascade functions across folder
+
+_repeatLast()
+    repeat last action on each object in a folder
+
+_openDoc()
+    open documentation for Big Manager
+
+```
+
+Attributes
+-----------
+
+folderName - global folder name between methods
+attributesText_F - global list of shared attributes within the folder shelf
+C - global list of attributes for full selection (folder shelf)
+attributesText_L - global list of shared attributes within the layer shelf
+L - global list of attributes for full selection (layer shelf)
+
 '''
 
 # ------IMPORTS------
@@ -35,7 +85,7 @@ if cmds.dockControl("bigUI",exists=True) :
 # ------ATTRIBUTE IDENTIFICATION AND DISPLAY------
 
 
-def updateSelectedAttributesFolder():
+def _updateSelectedAttributesFolder() -> None:
     #import
     global C
     # get shared attributes between selected objects
@@ -47,18 +97,18 @@ def updateSelectedAttributesFolder():
             C = set(C).intersection(A)
     # sort for ease of traversal
     C = sorted(C)
-    updateSelectedAttributeUI_Folder()
+    _updateSelectedAttributeUI_Folder()
 
 
 
-def updateSelectedAttributeUI_Folder():
+def _updateSelectedAttributeUI_Folder() -> None:
     global C
     for i in C :
         # remove attributes that "don't exist" but still apear (???)
         if "." not in i :
             attributesText_F[i] = cmds.textFieldGrp(i + "_aFF",label=i, parent="attributeColumn_F")
 
-def clearSelectedAttributeUI_folder():
+def _clearSelectedAttributeUI_folder() -> None:
     # import 
     global C
 
@@ -75,7 +125,7 @@ def clearSelectedAttributeUI_folder():
     C = []
 
 
-def updateSelectedAttributesLayer():
+def _updateSelectedAttributesLayer() -> None:
     #import
     global L
     # get shared attributes between selected objects
@@ -87,18 +137,18 @@ def updateSelectedAttributesLayer():
             L = set(L).intersection(A)
     # sort for ease of traversal
     L = sorted(L)
-    updateSelectedAttributeUI_Layer()
+    _updateSelectedAttributeUI_Layer()
 
 
 
-def updateSelectedAttributeUI_Layer():
+def _updateSelectedAttributeUI_Layer() -> None:
     global L
     for i in L :
         # remove attributes that "don't exist" but still apear (???)
         if "." not in i :
             attributesText_L[i] = cmds.textFieldGrp(i + "_aFL",label=i, parent="attributeColumn_L")
 
-def clearSelectedAttributeUI_layer():
+def _clearSelectedAttributeUI_layer() -> None:
     # import 
     global L
 
@@ -116,7 +166,7 @@ def clearSelectedAttributeUI_layer():
 
 # ------BUTTON CONNECTION------
 
-def createFolder(*args):
+def _createFolder(*args) -> None:
     # attribute fetch
     folderName = cmds.textFieldGrp("ffGV", q=1, text=1)
     regex = cmds.textFieldGrp("rffGV", q=1, text=1)
@@ -148,7 +198,7 @@ def createFolder(*args):
             elif regex != "":
                 massRename.findOpen(regex, folderName)
             else:
-                massRename.createFolderOpen(folderName)
+                massRename._createFolderOpen(folderName)
     else: 
             if condition != "True" and regex != "" :
                 massRename.findConditionFolder(condition,regex,folderName)
@@ -157,10 +207,10 @@ def createFolder(*args):
             elif regex != "":
                 massRename.find(regex, folderName)
             else:
-                massRename.createFolder(folderName)
+                massRename._createFolder(folderName)
 
 
-def createLayer(*args):
+def _createLayer(*args) -> None:
     layerName = cmds.textFieldGrp("lfGV", q=1, text=1)
     regex = cmds.textFieldGrp("rlfGV", q=1, text=1)
     condition = cmds.textFieldGrp("clfGV", q=1, text=1)
@@ -191,16 +241,16 @@ def createLayer(*args):
     else:
         massRename.shiftLayer(layerName)
 
-def cascadeAttributes(*args):
+def _cascadeAttributes(*args) -> None:
     folderName = cmds.textFieldGrp("efGV", q=1, text=1)
     code = cmds.textFieldGrp("cofGV", q=1, text=1)
     procedureCascade.cascadeFunctions(folderName, code)
 
-def repeatLast(*args):
+def _repeatLast(*args) -> None:
     folderName = cmds.textFieldGrp("efGV", q=1, text=1)
-    procedureCascade.repeatLast(folderName)
+    procedureCascade._repeatLast(folderName)
 
-def openDoc(*args):
+def _openDoc(*args) -> None:
     wb.open("https://ncca.github.io/pipeline-project-Geekwithahat/")
 
 
@@ -228,7 +278,7 @@ annotation="Condition Folder: Search for items by attribute \n Current item reff
 
 # attribute frame
 cmds.frameLayout(label=f"Shared attributes (Advanced Search)", collapsable=True, collapse=True, 
-preExpandCommand=updateSelectedAttributesFolder, preCollapseCommand=clearSelectedAttributeUI_folder,
+preExpandCommand=_updateSelectedAttributesFolder, preCollapseCommand=_clearSelectedAttributeUI_folder,
 parent="FFL", marginWidth=10, marginHeight=10,
 annotation="Display all attributes common between current selection.")
 
@@ -245,7 +295,7 @@ cmds.setParent("..")
 reorgCheck = cmds.checkBox("rC", label="Reorder", align="centre",
 annotation="Reogranisation: Removed objects from folders before placing them in a new folder.")
 
-cmds.button( label='Create Folder', command=createFolder,
+cmds.button( label='Create Folder', command=_createFolder,
 annotation="Create Folder: Sources from selection or from above parameters." )
 
 
@@ -265,7 +315,7 @@ annotation="Condition Layer: Search for items by attribute \n Current item reffe
 
 # attribute frame
 cmds.frameLayout(label=f"Shared attributes (Advanced Search)", collapsable=True, collapse=True, 
-preExpandCommand=updateSelectedAttributesLayer, preCollapseCommand=clearSelectedAttributeUI_layer,
+preExpandCommand=_updateSelectedAttributesLayer, preCollapseCommand=_clearSelectedAttributeUI_layer,
 parent="LFL", marginWidth=10, marginHeight=10, annotation="Display all attributes comon between current selection.")
 
 # allow for buttons
@@ -276,7 +326,7 @@ cmds.setParent("..")
 cmds.setParent("..")
 
 
-cmds.button( label='Create Layer', command=createLayer,
+cmds.button( label='Create Layer', command=_createLayer,
 annotation="Create Layer: Sources from selection or from above parameters." )
 
 
@@ -290,14 +340,14 @@ annotation="Folder Name: Provide the existing folder to cascade a procedure thro
 code_FieldGrpVar = cmds.textFieldGrp("cofGV", label='Code', text="", parent="CFL",
 annotation="Cascade Function: Python function to be applied to each object in a folder." )
 
-cmds.button( label='Execute', command=cascadeAttributes, parent="CFL",
+cmds.button( label='Execute', command=_cascadeAttributes, parent="CFL",
 annotation="Execute: Apply function to each object in a folder.")
 
-cmds.button( label='Repeat Last', command=repeatLast, parent="CFL",
+cmds.button( label='Repeat Last', command=_repeatLast, parent="CFL",
 annotation="Cascade Function: Python function to be applied to each objects in a folder.")
 
 # Documentation open
-cmds.button(label="Help", command=openDoc, parent="SL",
+cmds.button(label="Help", command=_openDoc, parent="SL",
 annotation="Help: Open documentation in a browser.")
 
 # allow for docking
