@@ -76,4 +76,63 @@ Applies the last-ran action to each object within a provided folder name.
 |Fails to load on boot instead of command run|Boot error|Low?|
 |Unit test for repeat last action fails unreliably|Test error|Medium|
 
+# Modules
 
+## big_test
+  
+runAll() - runs all unit tests.
+
+## big_ui
+
+All functions are internal, boots the user interface for Big Manager on import. 
+
+## Mass Rename
+
+**massRename**
+    
+Mass Formats all new members of a folder by pre-pending name (For formatting folder name).
+
+**createFolder**
+
+Creates folder from selection.
+
+**createFolderOpen**
+  
+Creates folder from selection, unparents objects from pre-existing folders.
+
+**find**
+
+Creates a folder from objects whose names match the regex function provided.
+
+**findOpen**
+
+Creates a folder from objects whose names match the regex function provided, unparents objects from pre-existing folders.
+
+**conditionalFolder**
+
+Creates a folder from objects that match the given python function. Mostly useful for Cmds.getAttr() functions. Each evaluated function is referered to as X.
+
+**conditionalFolderOpen**
+
+Creates a folder from objects that match the given python function, unparents objects from pre-existing folders. Mostly useful for Cmds.getAttr() functions. Each evaluated function is referered to as X.
+
+**findConditionFolder**
+Creates a folder from objects that both match the regex function and the given python function. Mostly useful for Cmds.getAttr() functions. Each evaluated function is referered to as X.
+
+**findConditionFolderOpen**
+    
+Creates a folder from objects that both match the regex function and the given python function, unparents objects from pre-existing folders. Mostly useful for Cmds.getAttr() functions. Each evaluated function is referered to as X.
+
+**cleanFolders**
+
+Removes folder objects without items within them. Automatically called whenever an Open function is called.
+
+## Procedure Cascade
+
+**cascadeFunctions**
+
+Runs a given function over each object in a folder
+
+**repeatLast**
+
+Repeats the last ran function on every item in a folder
