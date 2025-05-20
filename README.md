@@ -80,41 +80,23 @@ Applies the last-ran action to each object within a provided folder name.
 
 ## big_test
   
-**runAll()**
+**runAll()** - Runs all unit tests.
 
-runs all unit tests.
+**Test_pytest** - Test testing.
 
-**test_pytest**
+**Test_mayaTest** - Test maya.cmds.
 
-Test testing.
+**Test_massRename** - Test massRename function.
 
-**test_mayaTest**
+**Test_createFolder** - Test folder creation.
 
-Test maya.cmds.
+**Test_regex** - Test creation from regex.
 
-**test_massRename**
-    
-Test massRename function.
+**Test_layerShift** - Test display creation.
 
-**test_createFolder**
+**Test_Cascade** - Test cascading function.
 
-Test folder creation.
-
-**test_regex**
-    
-Test creation from regex.
-
-**Test_layerShift**
-
-Test display creation.
-
-**Test_Cascade**
-
-Test cascading function.
-
-**Test_Reorg**
-
-Test reorganisation flag.
+**Test_Reorg** - Test reorganisation flag.
 
 **Test_RepeatLast**
 
