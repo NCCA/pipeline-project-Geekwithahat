@@ -198,7 +198,7 @@ def _createFolder(*args) -> None:
             elif regex != "":
                 massRename.findOpen(regex, folderName)
             else:
-                massRename._createFolderOpen(folderName)
+                massRename.createFolderOpen(folderName)
     else: 
             if condition != "True" and regex != "" :
                 massRename.findConditionFolder(condition,regex,folderName)
@@ -207,7 +207,7 @@ def _createFolder(*args) -> None:
             elif regex != "":
                 massRename.find(regex, folderName)
             else:
-                massRename._createFolder(folderName)
+                massRename.createFolder(folderName)
 
 
 def _createLayer(*args) -> None:
@@ -248,7 +248,7 @@ def _cascadeAttributes(*args) -> None:
 
 def _repeatLast(*args) -> None:
     folderName = cmds.textFieldGrp("efGV", q=1, text=1)
-    procedureCascade._repeatLast(folderName)
+    procedureCascade.repeatLast(folderName)
 
 def _openDoc(*args) -> None:
     wb.open("https://ncca.github.io/pipeline-project-Geekwithahat/")

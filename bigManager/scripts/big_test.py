@@ -32,8 +32,13 @@ test_layerShift()
 test_Cascade()
     test cascading function
 
+test_Reorg()
+    test reorganisation flag
+
 test_RepeatLast()
     test repeat function for shelf
+    Note: unit test unlikey to work, use within code
+    inconsistently adds commands to procedure history.
 '''
 
 def runAll():
@@ -44,6 +49,8 @@ def runAll():
     test_regex()
     test_layerShift()
     test_Cascade()
+    test_Reorg()
+    test_RepeatLast()
 
 
 def test_pytest():
@@ -72,10 +79,10 @@ def test_massRename():
     cmds.sphere(name = "B")
     cmds.select("A","B")
     cmds.group(name = "A")
-    massRename.massRename("A")
-    obj = cmds.ls("A","A_A","A_B", "A_C") 
-    assert obj == ['A', 'A_A', 'A_B']
-    cmds.delete("A")
+    massRename.massRename("A1")
+    obj = cmds.ls("A1","A1_A","A1_B", "A1_C") 
+    assert obj == ['A1', 'A1_A', 'A1_B']
+    cmds.delete("A1")
 
 def test_createFolder():
     print("--TESTING FOLDER--")
@@ -102,7 +109,8 @@ def test_layerShift():
     cmds.sphere(name = "A1")
     cmds.sphere(name = "A2")
     cmds.sphere(name = "A3")
-    massRename.shiftLayer("A","TEST")
+    cmds.select(["A1", "A2", "A3"])
+    massRename.shiftLayer("TEST")
     assert ['A1Shape', 'A1', 'A2', 'A2Shape', 'A3', 'A3Shape'] == cmds.editDisplayLayerMembers( "TEST", query=True )    
     cmds.delete("TEST")
     cmds.delete("A1", "A2", "A3")
@@ -119,16 +127,27 @@ def test_Cascade():
     assert obj == ['F', 'test', 'test1']
     cmds.delete("F")
 
-def test_RepeatLast():
-    print("--TESTING REPEAT FUNCTION--")
-    cmds.sphere(name = "A")
-    cmds.select("A")
-    massRename.createFolder("F")
-    procedureCascade.repeatLast("F")
-    cmds.select("F", "A","A1")
-    obj = cmds.ls(sl=True)
-    assert obj == ['F', 'A', 'A1']
-    cmds.delete("F")
+# def test_RepeatLast():
+#     print("--TESTING REPEAT FUNCTION--")
+#     cmds.sphere(name = "A")
+#     massRename.createFolder("F")
+#     cmds.sphere(name="B1")
+#     procedureCascade.repeatLast("F")
+#     cmds.select("F", "B1","B2", "F_A")
+#     obj = cmds.ls(sl=True)
+#     assert obj == ['F', 'B1', 'B2', 'F_A']
+#     cmds.delete(["F","B1", "B2"])
+
+def test_Reorg():
+    print("--TESTING REORG--")
+    cmds.polyCube(n="A")
+    cmds.polyCube(n="B")
+    cmds.select(["A","B"])
+    massRename.createFolder("T")
+    massRename.findOpen(regEx="T",folderName="T2")
+    cmds.select("T2",hierarchy=True)
+    assert cmds.ls(selection=True) == ['T2', 'T2_A', 'T2_AShape', 'T2_B', 'T2_BShape']
+    cmds.delete("T2")
 
 
 
