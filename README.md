@@ -98,9 +98,7 @@ Applies the last-ran action to each object within a provided folder name.
 
 **Test_Reorg** - Test reorganisation flag.
 
-**Test_RepeatLast**
-
-Test repeat function for shelf
+**Test_RepeatLast** - Test repeat function for shelf
 _Note: unit test unlikey to work, using within code inconsistently adds commands to procedure history._
 
 ## big_ui
