@@ -86,7 +86,7 @@ runAll() - runs all unit tests.
 
 All functions are internal, boots the user interface for Big Manager on import. 
 
-## Mass Rename
+## massRename
 
 **massRename**
     
@@ -127,7 +127,7 @@ Creates a folder from objects that both match the regex function and the given p
 
 Removes folder objects without items within them. Automatically called whenever an Open function is called.
 
-## Procedure Cascade
+## procedureCascade
 
 **cascadeFunctions**
 
