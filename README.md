@@ -80,7 +80,46 @@ Applies the last-ran action to each object within a provided folder name.
 
 ## big_test
   
-runAll() - runs all unit tests.
+**runAll()**
+
+runs all unit tests.
+
+**test_pytest**
+
+Test testing.
+
+**test_mayaTest**
+
+Test maya.cmds.
+
+**test_massRename**
+    
+Test massRename function.
+
+**test_createFolder**
+
+Test folder creation.
+
+**test_regex**
+    
+Test creation from regex.
+
+**Test_layerShift**
+
+Test display creation.
+
+**Test_Cascade**
+
+Test cascading function.
+
+**Test_Reorg**
+
+Test reorganisation flag.
+
+**Test_RepeatLast**
+
+Test repeat function for shelf
+_Note: unit test unlikey to work, using within code inconsistently adds commands to procedure history._
 
 ## big_ui
 
