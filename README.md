@@ -74,5 +74,6 @@ Applies the last-ran action to each object within a provided folder name.
 |---------|---------------|------------------|
 |Fails to add particle system to folders|Function error|Low|
 |Fails to load on boot instead of command run|Boot error|Low?|
+|Unit test for repeat last action fails unreliably|Test error|Medium|
 
 
