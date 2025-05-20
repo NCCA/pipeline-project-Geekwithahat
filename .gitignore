@@ -5,3 +5,4 @@ bigManager/.pytest_cache
 bigManager/.python-version
 bigManager/uv.lock
 bigManager/.venv
+bigManager/scripts/__pycache__
